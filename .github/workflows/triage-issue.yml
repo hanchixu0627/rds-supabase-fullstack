@@ -33,7 +33,7 @@ jobs:
         run: python3 .github-repo/actions/issue-bot/issue_bot.py
       - name: Mark as triaged
         if: github.event_name == 'issues'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           script: |
             const { data: issue } = await github.rest.issues.get({

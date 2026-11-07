@@ -63,6 +63,58 @@ class Operations:
         return {**result,'cloud_writes_performed':False,
                 'note':'Resource values were observed at resource_checked_at; business behavior is unverified. A later change still needs a new preview and confirmation.'}
 
+    async def deliver_key(self,application_id,key_id,delivery_ref,confirm=False,plan_id=None):
+        from mcp_server_supabase.service.key_delivery import deliver
+        return await deliver(self,application_id,key_id,delivery_ref,confirm,plan_id)
+
+    async def create_reference(self,request_ref,confirm=False,plan_id=None):
+        from mcp_server_supabase.service.request_refs import load_request,preview_request
+        from mcp_server_supabase.service.creation import validate_creation
+        body=validate_creation(load_request(request_ref))
+        path=ROOT+'/supabases';digest=self.intent_digest('POST',path,body)
+        notices={'completion_verified':False,'warnings':[
+            'Review application and PG credentials, network, ownership, quota and ongoing charges before confirming.',
+            'Only Single mode and postPaid new-PG creation are supported. No automatic payment or cleanup.',
+            'Structural validation only: backend password, version, capacity and sale policies remain authoritative.'],
+            'follow_up':'Observe application job and any PG job separately, query both resources and validate login. Partial success never authorizes automatic resource deletion.'}
+        if not confirm:
+            return {'status':'confirmation_required','execution':'not_executed','changes':preview_request(body),**notices,**self.plans.issue(digest)}
+        if os.getenv('SUPABASE_ENABLE_WRITES')!='true' or os.getenv('HUAWEICLOUD_MCP_READ_ONLY','false').lower()=='true':
+            raise McpToolError('MCP_READ_ONLY','Writes are disabled')
+        self.plans.claim(plan_id,digest)
+        try:
+            status,data=await self.client.request('POST',path,body=body)
+            if data.get('order_id'):raise ValueError()
+            result=accepted_job(status,data)
+            result['application_id']=segment(data.get('application_id'))
+            for key in ('instance_id','instance_job_id'):
+                if data.get(key):result[key]=segment(data[key])
+            self.plans.finish(plan_id,'accepted',result['job_id'])
+            return {**result,**notices,'plan_id':plan_id}
+        except BaseException:
+            self.plans.finish(plan_id,'unknown')
+            raise RecoveryError('MCP_SDK_ERROR','Creation result unknown','submission_unknown',
+                                'Inspect the plan and application/PG inventories. An unexpected order must be reconciled manually; do not pay, replay or auto-delete.',plan_id) from None
+
+    async def mutate_reference(self, application_id, action, request_ref, confirm=False, plan_id=None):
+        from mcp_server_supabase.service.request_refs import load_request, validate_request
+        body=validate_request(action,load_request(request_ref))
+        return await self.mutate(application_id,action,body,confirm,plan_id)
+
+    async def creation_candidates(self, kind, az_code=None, mode=None):
+        if kind=='flavors':
+            az_code=segment(az_code)
+            if mode != 'Single':
+                raise McpToolError('MCP_INVALID_ARGS','Only Single mode is supported by the supplied SDK contract')
+            path=ROOT+'/supabase/flavors';query={'az_code':az_code,'mode':mode}
+        elif kind=='manageable':
+            path=ROOT+'/manageable-instances';query={'application_type':'supabase'}
+        else:
+            raise McpToolError('MCP_INVALID_ARGS','Unsupported creation discovery')
+        _,data=await self.client.request('GET',path,query=query)
+        return {'data':safe(data),'creation_ready':False,
+                'note':'Live candidates only, capped at 100 entries per array. This is not a complete inventory, price quote or validated creation plan.'}
+
     async def read(self, kind, application_id=None, limit=10, offset=0, **key_filters):
         if type(limit) is not int or not 1 <= limit <= 100 or type(offset) is not int or offset < 0:
             raise McpToolError("MCP_INVALID_ARGS", "Invalid pagination")
@@ -149,6 +201,10 @@ class Operations:
                                        hint="Use is_bind=false with null or omitted EIP ID and address.")
                 body = {"is_bind":False}
             method, suffix = "PUT", "/public-eip"
+        elif action in ("password", "storage", "auth_config"):
+            from mcp_server_supabase.service.request_refs import validate_request
+            body=validate_request(action,body)
+            method, suffix = "PUT", {"password":"/password","storage":"/storage","auth_config":"/auth-config"}[action]
         elif action == "delete":
             method, suffix, body = "DELETE", "", None
         elif action == "reset_key":
@@ -181,9 +237,16 @@ class Operations:
                 ],
                 "completion_verified":False,
             }
+        if action in ("password","storage","auth_config"):
+            notices={"warnings":["Review all changed fields and dependent applications; secrets are supplied locally.",
+                                 "Disabling a provider may clear its nested configuration; omitted Auth fields remain unchanged.",
+                                 "First Storage enable requires SK; omission on an enabled component retains its SK only with the same AK."],
+                     "validation_scope":"Known structural contract only; backend policy and live acceptance remain required."}
         digest = self.intent_digest(method, path+suffix, body)
+        from mcp_server_supabase.service.request_refs import preview_request
+        preview_body=preview_request(body)
         if not confirm:
-            return {"status":"confirmation_required", "application_id":application_id, "action":action, "changes":body, "resource_path":path+suffix, "execution":"not_executed", **notices, **self.plans.issue(digest)}
+            return {"status":"confirmation_required", "application_id":application_id, "action":action, "changes":preview_body, "resource_path":path+suffix, "execution":"not_executed", **notices, **self.plans.issue(digest)}
         if os.getenv("SUPABASE_ENABLE_WRITES") != "true" or os.getenv("HUAWEICLOUD_MCP_READ_ONLY", "false").lower() == "true":
             raise McpToolError("MCP_READ_ONLY", "Writes are disabled")
         # Read the real target immediately before mutation. Unknown/active states fail closed.
@@ -207,6 +270,11 @@ class Operations:
             if not ready:
                 raise McpToolError("MCP_GUARDRAIL_BLOCKED", "Key is not demonstrably normal in this application",
                                    hint="Refresh key metadata and verify its ID and state before resetting.")
+        if action=='storage' and body['enabled'] and 'sk' not in body:
+            current=target.get('storage_component')
+            if not isinstance(current,dict) or current.get('enabled') is not True or current.get('ak')!=body['ak']:
+                raise McpToolError('MCP_GUARDRAIL_BLOCKED','Omitted SK requires already enabled Storage with the same AK',
+                                   hint='For first enable or credential identity change, provision complete credentials locally and preview again.')
         self.plans.claim(plan_id, digest)
         try:
             status, data = await self.client.request(method, path + suffix, body=body)

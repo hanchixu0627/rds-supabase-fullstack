@@ -53,3 +53,13 @@
 任务单次判定、有界只读观察及补充资料冲突处置见[采纳与验收说明](SUPPLEMENT_REVIEW.md)。任务completed不等于资源/业务验收，账本不自动解除。创建信息已补充，秘密通道及剩余约束仍待完成。
 
 0.3.7a1更新：Auth accepted计划可按[对账契约](RECONCILIATION.md)验证并结束；unknown及其他动作不解除。业务验收、资源并发控制和完整秘密通道仍待完成。
+
+## 0.3.8a1 新增工具
+
+总计29个工具；新增12个。`change_supabase_application_password`、`update_supabase_auth_config`、`update_supabase_storage`只接受application_id/request_ref/confirm/plan_id，schema和安全边界见[本地引用](LOCAL_REQUESTS.md)。应用改密为DANGEROUS，Auth/Storage为WRITE；沿用应用状态检查、两阶段确认、异步202/job和本地防重复账本。
+
+VPC工具：list_supabase_security_groups(limit=10,marker=null)、show_supabase_security_group(group_id)、create_supabase_security_group(name,confirm=false,plan_id=null)、add_supabase_security_group_rule(group_id,source_cidr,port=8443,confirm=false,plan_id=null)、delete_supabase_security_group_rule(group_id,rule_id,confirm=false,plan_id=null)。查为READ、建组WRITE、规则增删DANGEROUS。独立VPC入口；原生v3单对象；创建201/删除204，无RDS job。回查与业务成功另验，ledger保留accepted。
+
+新增create_supabase_application(request_ref,confirm=false,plan_id=null)与deliver_supabase_api_key(application_id,key_id,delivery_ref,confirm=false,plan_id=null)，均为DANGEROUS，安全输入/输出和结构见LOCAL_REQUESTS.md。
+
+创建候选：list_supabase_flavors(az_code,mode)和list_supabase_manageable_instances()为READ；返回creation_ready=false，不能当创建提交/费用报价或完整分页库存。

@@ -28,3 +28,6 @@ Packaging dependency gate: installed huaweicloudsdkcore 3.1.220 metadata constra
 SDK 0.3.7a1: SDK Core signing is implemented and locally tested. Generated Supabase models, live service authentication and job terminal interpretation remain unverified. See docs/SDK.md.
 
 0.3.7a1: public RDS single-job status interpretation and bounded observations implemented. Supabase-specific live shape, resource/business verification and ledger reconciliation remain open. Creation field summary is supplied but does not close full validation/secrets gaps; see docs/SUPPLEMENT_REVIEW.md.
+
+## 0.3.8a1交付边界
+新增受保护本地请求引用、应用改密/Auth/OBS、原生VPC组和规则、创建候选查询。完整逐子场景范围以docs/SIX_SCENARIO_MATRIX.md为准；外部缺口见docs/OPEN_QUESTIONS.md。包周期创建、证书原生查询/购买、宿主秘密保险库及PG级联仍未交付。所有新增能力仅完成离线验证，真实环境与码道验收未完成。

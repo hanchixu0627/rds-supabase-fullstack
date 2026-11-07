@@ -118,3 +118,60 @@ def register(server):
         expected={k:v for k,v in {'enable_account_sign_up':enable_account_sign_up,
                                   'enable_anonymous_users':enable_anonymous_users}.items() if v is not None}
         return await service.reconcile_auth(plan_id,application_id,expected)
+
+    @server.tool()
+    @guard(risk=ToolRisk.DANGEROUS)
+    async def change_supabase_application_password(application_id: str, request_ref: str, confirm: bool = False, plan_id: str | None = None) -> dict:
+        """Change only the Supabase application password using an operator-provisioned local request alias.
+        Never pass a password in tool arguments. Backend password policy remains authoritative.
+        Preview first; explicit confirmation and the unchanged plan are required to submit once.
+        """
+        return await service.mutate_reference(application_id,'password',request_ref,confirm,plan_id)
+
+    @server.tool()
+    @guard(risk=ToolRisk.WRITE)
+    async def update_supabase_auth_config(application_id: str, request_ref: str, confirm: bool = False, plan_id: str | None = None) -> dict:
+        """Partially update supported Auth URLs/providers/confirmation template via a protected local alias.
+        Omitted fields stay unchanged. Provider disabling may clear nested configuration.
+        Unknown fields, null clears and unsupported templates are rejected. No secrets in tool input.
+        """
+        return await service.mutate_reference(application_id,'auth_config',request_ref,confirm,plan_id)
+
+    @server.tool()
+    @guard(risk=ToolRisk.WRITE)
+    async def update_supabase_storage(application_id: str, request_ref: str, confirm: bool = False, plan_id: str | None = None) -> dict:
+        """Configure Storage using a protected local alias: first enable requires full bucket/AK/SK.
+        Omitted SK retains the current value only when Storage is already enabled with the same AK. Disabling requires empty/omitted secret fields.
+        Review OBS cost and access effects; accepted job is not business completion.
+        """
+        return await service.mutate_reference(application_id,'storage',request_ref,confirm,plan_id)
+
+    @server.tool()
+    @guard(risk=ToolRisk.READ)
+    async def list_supabase_flavors(az_code: str, mode: str) -> dict:
+        """Query Supabase flavor candidates in an explicit AZ and Single mode; no defaults or price claims."""
+        return await service.creation_candidates('flavors',az_code,mode)
+
+    @server.tool()
+    @guard(risk=ToolRisk.READ)
+    async def list_supabase_manageable_instances() -> dict:
+        """Query PG candidates for application_type=supabase. Candidate presence is not full creation readiness."""
+        return await service.creation_candidates('manageable')
+
+    @server.tool()
+    @guard(risk=ToolRisk.DANGEROUS)
+    async def create_supabase_application(request_ref: str, confirm: bool = False, plan_id: str | None = None) -> dict:
+        """Create a Single Supabase application using a protected local request alias and explicit confirmation.
+        Existing PG or postPaid new PG only; no automatic payment. Backend policies remain authoritative.
+        Returns application and optional PG job/resource IDs; verify every resource and business behavior separately.
+        """
+        return await service.create_reference(request_ref,confirm,plan_id)
+
+    @server.tool()
+    @guard(risk=ToolRisk.DANGEROUS)
+    async def deliver_supabase_api_key(application_id: str, key_id: str, delivery_ref: str, confirm: bool = False, plan_id: str | None = None) -> dict:
+        """After explicit confirmation, deliver one selected normal key to an operator-configured protected local file.
+        No key value or arbitrary path in arguments/output. Operator ACL and trusted manual opening are required.
+        Never read the delivered file using an Agent tool. Copying is a trusted client action, not a cloud API.
+        """
+        return await service.deliver_key(application_id,key_id,delivery_ref,confirm,plan_id)

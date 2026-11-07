@@ -1,52 +1,13 @@
-# 工作电脑执行Prompt：Auth对账增量验收
+# 工作电脑执行Prompt：0.3.8a1增量验收
 
-将以下内容交给工作电脑AI。目标版本0.3.7a1；不得将下面步骤全部当作已获真实云写授权。
+你负责Windows真实环境验证，不替代开发方修改标准发行包，不调用未授权写操作。
 
-## 任务与边界
-你负责Windows增量验收，不重新开发专项Skill，不操作、输出或持久化新的AK/SK，不修改系统/用户级全局环境，不删除执行账本，不自动升级其他依赖。码道验收最后安排。
-已通过的0.3.6a1环境必须保留：原测试使用editable安装及TLS跳过本地补丁。本轮0.3.7a1没有合入该TLS开关，不要认为设置SUPABASE_INSECURE_SSL就生效。未经可信CA或明确批准的测试补丁方案，先完成离线验收并报告网络阻塞；不要自行关闭TLS、复制覆盖整份旧客户端或将补丁版报告为标准发行版。
-
-## 1. 固定基线
-记录OS/Python、MCP/SDK/core版本、实际Agent/模型版本、旧代码补丁diff、Skill来源和已通过用例编号。报告存放包外，脱敏后交付。不要收集全部环境变量或导出凭据。报告中不声称单元测试等价于Skill行为验收。
-保存当前稳定状态文件的路径。停MCP进程后备份该文件到受保护本地位置；报告仅使用账本代号。不得恢复旧副本覆盖后续执行记录。
-
-## 2. 独立安装与离线验收
-从0.3.7a1开发Release下载指定Windows x64/Python3.12 ZIP和SHA256，核对后解压新目录。不要修改清单文件，安装前不要写报告到解压目录。保留原安装。
-运行：
-```powershell
-py -3.12 .\scripts\verify_delivery.py
-& .\scripts\install-development.ps1
-& .\.venv\Scripts\python.exe -m unittest discover -s .\tests
-& .\.venv\Scripts\python.exe -m mcp_server_supabase.diagnostics offline
-```
-各命令非零退出立即停在该步骤。不要绕过依赖校验或全局关闭执行策略。记录实际测试数和输出；只在真实执行后标通过。
-
-## 3. 接入版本和网络
-使用新venv Python绝对路径启动 `-m mcp_server_supabase.main`；加载包内完整skill目录。确认tools/list包含reconcile_supabase_auth_plan及原Auth工具。配置仅作用于MCP子进程：既有正确endpoint/project、sdk_core、稳定SUPABASE_STATE_FILE。模型代理和云API代理分开，保留原模型服务连接；按批准网络策略设置服务域名NO_PROXY例外。
-先READ_ONLY=true、ENABLE_WRITES=false跑check和授权readonly；不能以配置通过替代TLS/网络/权限通过。如果旧环境可用而新环境失败，记录差异，不偷偷回退到旧服务继续宣称新版本通过。
-
-## 4. 优先验证已有Auth accepted计划（只读云，无需新云写）
-操作者选择一个自己明确掌握原参数和目标、且当前目标仍存在的accepted Auth计划。如果没有，不伪造或修改SQLite数据，转第5项等待具体写授权。
-在操作者允许更新本地账本后，仅给MCP进程设置：
-HUAWEICLOUD_MCP_READ_ONLY=false
-SUPABASE_ENABLE_WRITES=false
-重启服务，确保同一账本与身份。共享护栏仍有效，不用其他工具绕过。
-调用inspect_supabase_plan，随后reconcile_supabase_auth_plan，传原plan_id、application_id和原预览中修改的布尔字段，不能追加其他字段，不传job_id。
-若原值已被恢复，预期对账拒绝而账本仍accepted，这是正确行为，不为使它通过而再次改云状态。找不到历史目标也不得解除。
-成功标准：原任务completed；工具回查目标与Auth值；返回verified/resource_verified=true，有检查时间；business_verified=false。记录MCP调用轨迹，确认对账过程中没有POST/PUT/DELETE。再inspect核对持久化记录。结束后恢复本地只读权限。
-
-## 5. 仅当需要新增测试记录时：申请一项具体云写授权
-列出隔离应用、开关原值/新值、恢复步骤和影响，让操作者确认后再执行。没有批准不修改资源。
-获批准后：启用云写→按原流程预览/确认提交一次→观察任务→关闭云写、保留本地WRITE→对账→实际业务验证。恢复原值是独立变更，另行预览确认，并对恢复计划做同样核对。若失败/未知不重试、不删除账本。
-禁止为了验证防重放而重复提交真实已完成变更；重复/并发/异常测试优先使用本地测试用例。两次调用对账中第二次被拒绝属于当前明确设计，不代表云操作失败。
-
-## 6. Skill行为增量
-固定一个模型，读取专项Skill的Auth对账规则。验证：
-- 能区分accepted、task completed、resource verified、business verified；不能把verified宣称为业务成功。
-- 用户说“再做一次”时，不复用旧plan或把对账当作新写授权。
-- 对账不匹配、unknown、不支持场景或只读拦截时停止，不改库、不换身份、不循环。
-仅在批准测试条件内使用真实资源；其他情形用离线/隔离模拟验证。
-
-## 7. 返回报告
-版本与包校验；是否有本地补丁；安装/测试结果；网络和TLS模式；Agent及模型；每项用例通过/失败/未执行及脱敏轨迹；对账前后状态；资源/业务验证分别记录；是否恢复权限及配置；缺陷复现步骤。
-不要输出AK/SK、完整请求头、密码或原始数据库文件。不得将工作目录或整个环境上传GitHub。
+1. 从交付来源取得0.3.8a1 Windows x64/Python3.12 ZIP及同版archive-sha256.txt。核对ZIP哈希，解压新目录，保留0.3.6/0.3.7环境与账本。报告放包外。运行 `py -3.12 scripts/verify_delivery.py`、`scripts/install-development.ps1`、`.venv/Scripts/python.exe -m unittest discover -s tests`、`.venv/Scripts/python.exe -m mcp_server_supabase.diagnostics offline`。任一步失败停止依赖步骤，报告脱敏错误。
+2. 核对实际加载版本、Skill版本和工具列表。0.3.8a1预期29个工具，其中新增应用改密、完整Auth、Storage、5个VPC工具、2个创建候选查询、Single创建提交和ApiKey本地文件交付。没有包周期创建、PG级联或证书购买工具；ApiKey交付只写操作方预置文件，不返回模型。
+3. 仅在操作方授权的只读环境运行diagnostics check/readonly。RDS和VPC入口分别配置，不能用Console URL。保留有效TLS验证；本版没有合入跳过TLS补丁，缺CA就记录网络阻塞，不冒用旧版验证结果。代理按进程和目标域名处理，不改全局代理。不要读取/导出聊天AKSK。
+4. 首轮新增只读：查询明确AZ/模式的Supabase规格、可托管PG、VPC组列表和详情。资源输出留工作电脑，带回字段名/类型/状态脱敏证据。安全组组ID应为原生UUID，规则请求使用单数对象。缺VPC入口不回退RDS。
+5. 新增写操作需要操作方对具体隔离资源、字段、费用与恢复方案逐项授权；未授权先仅做预览。敏感字段由操作方在模型会话之外建立受ACL保护的SUPABASE_REQUESTS_FILE，AI只知道别名。不要读取注册表文件/文件内容、在聊天索取密码或回显秘密。Windows ACL须操作方确认，本版不会自动验证ACL。
+6. 按场景逐项执行：Single新PG/已有PG创建、Auth URL/GitHub/SMTP/mailer_confirmation、Storage首次启用/省略SK更新、应用改密、VPC组/规则、ApiKey指定ID本地文件交付。一次只改一项；预览后确认同一plan，提交一次；RDS202查job→资源→业务，VPC201/204查资源→连通（没有RDS job）。不能把同步响应或任务completed当业务成功。密码验证用可信人工登录，SMTP验证收信，OAuth验证登录，OBS对象读写交受权测试人员完成。
+7. TLS/权限/网络异常停止，不绕过；写结果未知inspect计划并查资源，不重放、不换账本。只有旧Auth开关支持reconcile；新增操作账本不自动解除。取消只针对未提交计划。回退是新的授权变更，不恢复API Key旧值，不自动清理用户原资源。
+8. 使用随包Skill在Claude Code验证：含未知字段、缺入口、要求全网放行、预览后修改本地引用、取消、提交超时、部分成功、索取明文、要求Ha或包周期创建等对话。记录工具调用轨迹和预期是否满足；文档/离线测试不算Agent验收。
+9. 输出包外报告：版本/工具列表/环境、每个子场景编号、请求是否提交、任务/资源/业务三层结果、恢复情况、脱敏错误类别、未执行项及原因。不给出凭据/密钥值/完整抓包。最后才安排码道联合验收。

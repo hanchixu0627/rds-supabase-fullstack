@@ -1,6 +1,6 @@
 > Directory integration and source installation: [MIGRATION.md](docs/MIGRATION.md). This is the cloud control-plane MCP; the existing sibling server remains separate.
 
-# Supabase management MCP — 0.3.7a1
+# Supabase management MCP — 0.3.8a1
 
 Local stdio MCP with a real HTTP transport, not a mock-success adapter. No cloud validation has been performed.
 
@@ -73,3 +73,9 @@ See [implemented changes, conflicting evidence and acceptance](docs/SUPPLEMENT_R
 
 ## Auth reconciliation (0.3.7a1)
 `reconcile_supabase_auth_plan` verifies the recorded job and fresh Auth values before ending an accepted local execution. Only matching Auth flag plans are supported. It performs cloud reads and a local ledger write; requires local WRITE permission but no cloud-write opt-in. See [contract and limitations](docs/RECONCILIATION.md) and [workstation prompt](docs/NEXT_WORKSTATION_PROMPT.md).
+
+## 0.3.8a1：六场景增量交付
+
+本版增加12个工具（总计29个）：应用改密、Auth提供方/模板/URL、OBS配置、VPC组查询/创建/规则增删、创建候选发现、Single创建提交及ApiKey本地交付。敏感请求通过操作方受保护的本地别名提供，详见[配置说明](docs/LOCAL_REQUESTS.md)。
+
+请从[子场景验收矩阵](docs/SIX_SCENARIO_MATRIX.md)核对已实现、未实现及待真实验证项。包周期创建、PG级联、证书原生发现/购买、宿主级秘密保险库仍未完成；此版不能称六场景全量生产验收通过。Windows联调使用[执行Prompt](docs/NEXT_WORKSTATION_PROMPT.md)，码道仍在最后。

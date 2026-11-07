@@ -17,7 +17,7 @@ if ($LASTEXITCODE -ne 0) { throw 'Environment or package verification failed. Us
 & py -3.12 -m venv $venv
 if ($LASTEXITCODE -ne 0) { throw 'Virtual environment creation failed.' }
 $python = Join-Path $venv 'Scripts\python.exe'
-& $python -m pip install --no-index --find-links $wheelDir -r $requirements 'huaweicloud-mcp-core==1.0.0' 'mcp_server_supabase==0.3.7a1'
+& $python -m pip install --no-index --find-links $wheelDir -r $requirements 'huaweicloud-mcp-core==1.0.0' 'mcp_server_supabase==0.3.8a1'
 if ($LASTEXITCODE -ne 0) { throw 'Offline installation failed; retain the error locally and do not bypass dependency checks.' }
 & $python -m pip check
 if ($LASTEXITCODE -ne 0) { throw 'Installed dependency metadata is inconsistent.' }

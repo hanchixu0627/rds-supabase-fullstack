@@ -94,3 +94,22 @@ class ProtocolTests(unittest.IsolatedAsyncioTestCase):
                         payload=result.structured_content or json.loads(result.content[0].text)
                         self.assertEqual(payload['error']['code'],'MCP_READ_ONLY')
             self.assertFalse(state.exists())
+
+    async def test_new_secret_previews_cross_real_stdio_without_leaks(self):
+        with tempfile.TemporaryDirectory() as directory:
+            registry=Path(directory)/'requests.json'
+            registry.write_text(json.dumps({'password':{'application_password':'fixture-sensitive-value'},'storage':{'enabled':True,'bucket_name':'fixture-bucket','ak':'fixture-ak','sk':'fixture-sensitive-value'},'auth':{'email_oauth_provider':{'smtp_config':{'smtp_pwd':'fixture-sensitive-value'}}}}));registry.chmod(0o600)
+            env={k:v for k,v in os.environ.items() if not k.startswith(('HUAWEICLOUD_','SUPABASE_'))}
+            env.update({'SUPABASE_REQUESTS_FILE':str(registry),'SUPABASE_STATE_FILE':str(Path(directory)/'plans.db'),'HUAWEICLOUD_MCP_READ_ONLY':'false','SUPABASE_ENABLE_WRITES':'false'})
+            params=StdioServerParameters(command=sys.executable,args=['-m','mcp_server_supabase.main'],env=env)
+            with tempfile.TemporaryFile(mode='w+') as errors:
+                async with stdio_client(params,errlog=errors) as (read,write):
+                    async with ClientSession(read,write) as session:
+                        await session.initialize();tools=await session.list_tools()
+                        self.assertEqual(len(tools.tools),29)
+                        for name,ref in [('change_supabase_application_password','password'),('update_supabase_storage','storage'),('update_supabase_auth_config','auth')]:
+                            result=await session.call_tool(name,{'application_id':'fixture-app','request_ref':ref})
+                            payload=result.structured_content or json.loads(result.content[0].text)
+                            self.assertEqual(payload['status'],'confirmation_required')
+                            self.assertNotIn('fixture-sensitive-value',str(result))
+                errors.seek(0);self.assertNotIn('fixture-sensitive-value',errors.read())

@@ -1,6 +1,6 @@
 [project]
 name = "mcp_server_supabase"
-version = "0.3.7a1"
+version = "0.3.8a1"
 license = "MIT"
 readme = "README.md"
 description = "Supabase management API adapters and scenario tools"

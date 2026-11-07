@@ -11,6 +11,10 @@ Huawei Cloud MCP Server shared repository: provides MCP tools for each Huawei Cl
 - **[RFS MCP](server/mcp_server_rfs/README_en.md)**: Resource Formation Service — one-click HCL template deployment as stacks, dry-run preview for execution plans, root-cause diagnosis for failed deployments, secure decommissioning.
 - **[RC MCP](server/mcp_server_rc/README_en.md)**: Resource Center — global resource search and group management, resource relationship queries, advanced ResourceQL queries.
 
+### Database
+
+- **[RDS Supabase MCP](server/mcp_server_rds_supabase/README.md)**: Self-hosted Supabase (BaaS) on Huawei Cloud RDS PostgreSQL — schema and data inspection, RLS policies, SQL execution (init.sql migration deployment), GoTrue user management, storage bucket configuration, advisor diagnostics. Ships a vendored core library (1.2.0) with a standalone uv lock and Docker deployment.
+
 ## Developer Documentation
 
 The complete development guide is available at [docs/development/](docs/development/README.md), split into 10 feature-focused documents: core package modular API, tool scenario methodology, service/client layers, guardrails, output & errors, three-tier testing, hands-on service creation from scratch, engineering & release. Reference implementation: `server/mcp_server_rfs/`; scaffold: `docs/development/template/`.
@@ -34,6 +38,15 @@ uv run mcp_server_rfs
 ## New Service Onboarding
 
 See [docs/08-new-service-walkthrough.md](docs/development/08-new-service-walkthrough.md): open issue → copy scaffold template → three-tier development → self-test → bilingual README → PR review.
+
+## Agent Skills
+
+The `skills/` directory provides skills authored to the Agent Skills open standard (installable via `npx skills add`):
+
+- **[rds-supabase-mcp](skills/rds-supabase-mcp/SKILL.md)**: RDS Supabase MCP server usage skill — installation and configuration, all 38 tools, the five-step init.sql deployment workflow, and verification methods.
+- **[rds-supabase](skills/rds-supabase/SKILL.md)**: RDS Supabase platform application development skill — client integration, auth, schema changes, an RLS debugging quick reference, and serverless compute routing.
+- **[rds-supabase-postgres-best-practices](skills/rds-supabase-postgres-best-practices/SKILL.md)**: Postgres best-practices rule library — symptom-to-rule-file index, including rules specific to the Huawei Cloud RDS deployment.
+- **[huaweicloud-mcp-dev](skills/huaweicloud-mcp-dev/SKILL.md)**: development guide skill for MCP servers in this repository.
 
 ## License
 

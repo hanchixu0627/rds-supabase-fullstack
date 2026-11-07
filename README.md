@@ -14,6 +14,13 @@
 - **[RC MCP](server/mcp_server_rc/README.md)**：资源中心——全局资源检索与分组管理、资源关系
   查询、ResourceQL 高级查询。
 
+### 数据库
+
+- **[RDS Supabase MCP](server/mcp_server_rds_supabase/README_zh.md)**：华为云 RDS PostgreSQL 上的
+  自建 Supabase（BaaS）平台管理——库表结构与数据查询、RLS 安全策略、SQL 执行（init.sql 迁移
+  部署）、GoTrue 用户管理、存储桶配置、advisors 诊断。自带 vendored 核心库（1.2.0）与独立
+  uv 锁，支持 Docker 部署。
+
 ## 开发者文档
 
 完整开发指南见 [docs/development/](docs/development/README.md)，按功能特性拆为 10 篇：核心包逐模块 API、
@@ -41,6 +48,18 @@ uv run mcp_server_rfs
 
 参见 [docs/08-new-service-walkthrough.md](docs/development/08-new-service-walkthrough.md)：
 提 issue → 复制脚手架模板 → 三层开发 → 自测 → 双语 README → PR 审查。
+
+## Agent Skills
+
+`skills/` 目录提供按 Agent Skills 开放标准编写的技能（可用 `npx skills add` 安装）：
+
+- **[rds-supabase-mcp](skills/rds-supabase-mcp/SKILL.md)**：RDS Supabase MCP 服务器使用技能——
+  安装配置、38 工具用法、init.sql 五步部署流程与验证方法。
+- **[rds-supabase](skills/rds-supabase/SKILL.md)**：RDS Supabase 平台应用开发技能——客户端集成、
+  认证、schema 变更、RLS 调试速查与服务端计算路由。
+- **[rds-supabase-postgres-best-practices](skills/rds-supabase-postgres-best-practices/SKILL.md)**：
+  Postgres 最佳实践规则库——按症状直达规则文件，含华为云 RDS 部署专属规则。
+- **[huaweicloud-mcp-dev](skills/huaweicloud-mcp-dev/SKILL.md)**：本仓库 MCP 服务器开发指南。
 
 ## License
 

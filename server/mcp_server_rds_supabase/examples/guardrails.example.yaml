@@ -1,0 +1,20 @@
+# Example guardrail rules for the RDS Supabase MCP server.
+# Load with HUAWEICLOUD_MCP_GUARDRAILS_CONFIG=/path/to/guardrails.yaml
+rules:
+  - id: block-production-drop
+    action: block
+    message: "DROP statements must go through a reviewed migration."
+    match:
+      tools: ["execute_sql"]
+
+  - id: confirm-execute-sql
+    action: confirm
+    message: "Review the SQL statement before executing it."
+    match:
+      tools: ["execute_sql", "apply_migration"]
+
+  - id: warn-user-writes
+    action: warn
+    message: "Auth user changes are logged and audited."
+    match:
+      tools: ["delete_auth_user", "update_auth_user", "create_auth_user"]

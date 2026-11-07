@@ -1,0 +1,20 @@
+{
+  "mcpServers": {
+    "rds-supabase": {
+      "command": "uvx",
+      "args": [
+        "--from",
+        "git+https://github.com/huaweicloud/rds-supabase-fullstack",
+        "--subdirectory",
+        "server/mcp_server_rds_supabase",
+        "mcp-server-huaweicloud-rds-supabase"
+      ],
+      "env": {
+        "SUPABASE_URL": "https://REPLACE_WITH_INSTANCE_URL",
+        "SUPABASE_ANON_KEY": "REPLACE_WITH_ANON_KEY",
+        "SUPABASE_SERVICE_ROLE_KEY": "REPLACE_WITH_SERVICE_ROLE_KEY",
+        "HUAWEICLOUD_MCP_READ_ONLY": "false"
+      }
+    }
+  }
+}

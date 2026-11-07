@@ -1,0 +1,451 @@
+{
+  "date": "2026-11-04",
+  "instance": "http://60.204.240.112:8443",
+  "transport": "stdio (both servers)",
+  "ts_server": {
+    "name": "rds-supabase-mcp",
+    "version": "0.1.0"
+  },
+  "py_server": {
+    "name": "huaweicloud-rds-supabase",
+    "version": "0.1.0"
+  },
+  "tools_list": {
+    "count_ts": 43,
+    "count_py": 43,
+    "names_and_order_ok": true,
+    "description_first_line_mismatches": [],
+    "input_schema_property_mismatches": [],
+    "param_description_notes": []
+  },
+  "calls": [
+    {
+      "tool": "get_project_url",
+      "arguments": {},
+      "mode": "exact",
+      "ts_is_error": false,
+      "py_is_error": false,
+      "verdict": "PASS"
+    },
+    {
+      "tool": "verify_jwt_secret",
+      "arguments": {},
+      "mode": "exact",
+      "ts_is_error": false,
+      "py_is_error": false,
+      "verdict": "PASS"
+    },
+    {
+      "tool": "list_tables",
+      "arguments": {},
+      "mode": "exact",
+      "ts_is_error": false,
+      "py_is_error": false,
+      "verdict": "PASS"
+    },
+    {
+      "tool": "list_extensions",
+      "arguments": {},
+      "mode": "exact",
+      "ts_is_error": false,
+      "py_is_error": false,
+      "verdict": "PASS"
+    },
+    {
+      "tool": "list_migrations",
+      "arguments": {},
+      "mode": "exact",
+      "ts_is_error": true,
+      "py_is_error": false,
+      "representation_note": "py returns the error envelope in a non-error result",
+      "verdict": "PASS"
+    },
+    {
+      "tool": "execute_sql",
+      "arguments": {
+        "sql": "SELECT 1 AS one"
+      },
+      "mode": "exact",
+      "ts_is_error": false,
+      "py_is_error": false,
+      "verdict": "PASS"
+    },
+    {
+      "tool": "execute_sql",
+      "arguments": {
+        "sql": "SELECT count(*) FROM public.students"
+      },
+      "mode": "exact",
+      "ts_is_error": false,
+      "py_is_error": false,
+      "verdict": "PASS"
+    },
+    {
+      "tool": "execute_sql",
+      "arguments": {
+        "sql": "DELETE FROM public.students",
+        "read_only": true
+      },
+      "mode": "error-message",
+      "ts_is_error": true,
+      "py_is_error": false,
+      "representation_note": "py returns the error envelope in a non-error result",
+      "verdict": "PASS",
+      "note": "in-database read_only whitelist"
+    },
+    {
+      "tool": "get_database_connections",
+      "arguments": {},
+      "mode": "structural",
+      "ts_is_error": false,
+      "py_is_error": false,
+      "verdict": "PASS",
+      "note": "pids/timestamps are volatile"
+    },
+    {
+      "tool": "get_database_stats",
+      "arguments": {},
+      "mode": "structural",
+      "ts_is_error": true,
+      "py_is_error": false,
+      "representation_note": "py returns the error envelope in a non-error result",
+      "verdict": "PASS",
+      "note": "counters move between calls"
+    },
+    {
+      "tool": "get_advisors",
+      "arguments": {
+        "type": "security"
+      },
+      "mode": "exact",
+      "ts_is_error": false,
+      "py_is_error": false,
+      "verdict": "PASS"
+    },
+    {
+      "tool": "get_advisors",
+      "arguments": {
+        "type": "performance"
+      },
+      "mode": "exact",
+      "ts_is_error": false,
+      "py_is_error": false,
+      "verdict": "PASS"
+    },
+    {
+      "tool": "list_table_columns",
+      "arguments": {
+        "table": "students"
+      },
+      "mode": "exact",
+      "ts_is_error": false,
+      "py_is_error": false,
+      "verdict": "PASS"
+    },
+    {
+      "tool": "list_indexes",
+      "arguments": {},
+      "mode": "exact",
+      "ts_is_error": false,
+      "py_is_error": false,
+      "verdict": "PASS"
+    },
+    {
+      "tool": "list_constraints",
+      "arguments": {},
+      "mode": "exact",
+      "ts_is_error": false,
+      "py_is_error": false,
+      "verdict": "PASS"
+    },
+    {
+      "tool": "list_foreign_keys",
+      "arguments": {},
+      "mode": "exact",
+      "ts_is_error": false,
+      "py_is_error": false,
+      "verdict": "PASS"
+    },
+    {
+      "tool": "list_rls_policies",
+      "arguments": {},
+      "mode": "exact",
+      "ts_is_error": false,
+      "py_is_error": false,
+      "verdict": "PASS"
+    },
+    {
+      "tool": "list_triggers",
+      "arguments": {},
+      "mode": "exact",
+      "ts_is_error": false,
+      "py_is_error": false,
+      "verdict": "PASS"
+    },
+    {
+      "tool": "list_database_functions",
+      "arguments": {},
+      "mode": "exact",
+      "ts_is_error": false,
+      "py_is_error": false,
+      "verdict": "PASS"
+    },
+    {
+      "tool": "get_function_definition",
+      "arguments": {
+        "function_name": "execute_sql"
+      },
+      "mode": "exact",
+      "ts_is_error": false,
+      "py_is_error": false,
+      "verdict": "PASS"
+    },
+    {
+      "tool": "get_rls_status",
+      "arguments": {},
+      "mode": "exact",
+      "ts_is_error": false,
+      "py_is_error": false,
+      "verdict": "PASS"
+    },
+    {
+      "tool": "list_available_extensions",
+      "arguments": {},
+      "mode": "exact",
+      "ts_is_error": false,
+      "py_is_error": false,
+      "verdict": "PASS"
+    },
+    {
+      "tool": "list_cron_jobs",
+      "arguments": {},
+      "mode": "exact",
+      "ts_is_error": false,
+      "py_is_error": false,
+      "verdict": "PASS",
+      "note": "pg_cron absent on this instance"
+    },
+    {
+      "tool": "list_vector_indexes",
+      "arguments": {},
+      "mode": "exact",
+      "ts_is_error": false,
+      "py_is_error": false,
+      "verdict": "PASS"
+    },
+    {
+      "tool": "list_edge_functions",
+      "arguments": {},
+      "mode": "exact",
+      "ts_is_error": false,
+      "py_is_error": false,
+      "verdict": "PASS"
+    },
+    {
+      "tool": "get_edge_function_details",
+      "arguments": {
+        "function_identifier": "missing"
+      },
+      "mode": "exact",
+      "ts_is_error": false,
+      "py_is_error": false,
+      "verdict": "PASS"
+    },
+    {
+      "tool": "get_logs",
+      "arguments": {
+        "service": "postgres"
+      },
+      "mode": "exact",
+      "ts_is_error": false,
+      "py_is_error": false,
+      "verdict": "PASS",
+      "note": "analytics absent -> none"
+    },
+    {
+      "tool": "get_index_stats",
+      "arguments": {
+        "index_name": "students_pkey"
+      },
+      "mode": "exact",
+      "ts_is_error": false,
+      "py_is_error": false,
+      "verdict": "PASS"
+    },
+    {
+      "tool": "get_vector_index_stats",
+      "arguments": {},
+      "mode": "exact",
+      "ts_is_error": false,
+      "py_is_error": false,
+      "verdict": "PASS"
+    },
+    {
+      "tool": "explain_query",
+      "arguments": {
+        "sql": "SELECT 1"
+      },
+      "mode": "exact",
+      "ts_is_error": false,
+      "py_is_error": false,
+      "verdict": "PASS"
+    },
+    {
+      "tool": "rebuild_hooks",
+      "arguments": {},
+      "mode": "exact",
+      "ts_is_error": false,
+      "py_is_error": false,
+      "verdict": "PASS",
+      "note": "restarts the pg_net worker"
+    },
+    {
+      "tool": "get_storage_config",
+      "arguments": {},
+      "mode": "exact",
+      "ts_is_error": false,
+      "py_is_error": false,
+      "verdict": "PASS",
+      "note": "storage schema absent"
+    },
+    {
+      "tool": "update_storage_config",
+      "arguments": {
+        "bucket_id": "x",
+        "public": true
+      },
+      "mode": "exact",
+      "ts_is_error": false,
+      "py_is_error": false,
+      "verdict": "PASS",
+      "note": "storage schema absent -> structured failure"
+    },
+    {
+      "tool": "generate_typescript_types",
+      "arguments": {
+        "output_path": "/tmp/x.ts"
+      },
+      "mode": "exact",
+      "ts_is_error": false,
+      "py_is_error": false,
+      "verdict": "PASS",
+      "note": "no DATABASE_URL -> structured failure"
+    },
+    {
+      "tool": "list_auth_users",
+      "arguments": {},
+      "mode": "error-message",
+      "ts_is_error": true,
+      "py_is_error": false,
+      "representation_note": "py returns the error envelope in a non-error result",
+      "verdict": "PASS",
+      "note": "requires DATABASE_URL"
+    },
+    {
+      "tool": "get_auth_user",
+      "arguments": {
+        "user_id": "00000000-0000-0000-0000-000000000000"
+      },
+      "mode": "error-message",
+      "ts_is_error": true,
+      "py_is_error": false,
+      "representation_note": "py returns the error envelope in a non-error result",
+      "verdict": "PASS",
+      "note": "requires DATABASE_URL"
+    },
+    {
+      "tool": "delete_auth_user",
+      "arguments": {
+        "user_id": "00000000-0000-0000-0000-000000000000"
+      },
+      "mode": "error-message",
+      "ts_is_error": true,
+      "py_is_error": false,
+      "representation_note": "py returns the error envelope in a non-error result",
+      "verdict": "PASS",
+      "note": "requires DATABASE_URL"
+    },
+    {
+      "tool": "create_auth_user",
+      "arguments": {
+        "email": "e2e@example.com",
+        "password": "secret1"
+      },
+      "mode": "error-message",
+      "ts_is_error": true,
+      "py_is_error": false,
+      "representation_note": "py returns the error envelope in a non-error result",
+      "verdict": "PASS",
+      "note": "requires DATABASE_URL"
+    },
+    {
+      "tool": "update_auth_user",
+      "arguments": {
+        "user_id": "00000000-0000-0000-0000-000000000000",
+        "email": "e2e@example.com"
+      },
+      "mode": "error-message",
+      "ts_is_error": true,
+      "py_is_error": false,
+      "representation_note": "py returns the error envelope in a non-error result",
+      "verdict": "PASS",
+      "note": "requires DATABASE_URL"
+    },
+    {
+      "tool": "list_storage_buckets",
+      "arguments": {},
+      "mode": "error-message",
+      "ts_is_error": true,
+      "py_is_error": false,
+      "representation_note": "py returns the error envelope in a non-error result",
+      "verdict": "PASS",
+      "note": "requires DATABASE_URL"
+    },
+    {
+      "tool": "list_storage_objects",
+      "arguments": {
+        "bucket_id": "x"
+      },
+      "mode": "error-message",
+      "ts_is_error": true,
+      "py_is_error": false,
+      "representation_note": "py returns the error envelope in a non-error result",
+      "verdict": "PASS",
+      "note": "requires DATABASE_URL"
+    },
+    {
+      "tool": "list_realtime_publications",
+      "arguments": {},
+      "mode": "error-message",
+      "ts_is_error": true,
+      "py_is_error": false,
+      "representation_note": "py returns the error envelope in a non-error result",
+      "verdict": "PASS",
+      "note": "requires DATABASE_URL"
+    },
+    {
+      "tool": "apply_migration",
+      "arguments": {
+        "version": "e2e",
+        "sql": "SELECT 1"
+      },
+      "mode": "error-message",
+      "ts_is_error": true,
+      "py_is_error": false,
+      "representation_note": "py returns the error envelope in a non-error result",
+      "verdict": "PASS",
+      "note": "requires DATABASE_URL"
+    }
+  ],
+  "guardrails": {
+    "read_only_blocks_write": true,
+    "read_only_allows_read": true
+  },
+  "summary": {
+    "tool_calls": 43,
+    "pass": 43,
+    "fail": 0,
+    "guardrails_ok": true,
+    "surface_ok": true
+  }
+}

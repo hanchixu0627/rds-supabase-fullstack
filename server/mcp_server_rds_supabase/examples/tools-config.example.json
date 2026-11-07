@@ -1,0 +1,13 @@
+{
+  "enabledTools": [
+    "list_tables",
+    "list_table_columns",
+    "list_indexes",
+    "list_constraints",
+    "list_foreign_keys",
+    "list_rls_policies",
+    "get_rls_status",
+    "get_advisors",
+    "execute_sql"
+  ]
+}

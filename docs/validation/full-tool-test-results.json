@@ -1,0 +1,1382 @@
+{
+  "summary": {
+    "server": {
+      "name": "huaweicloud-rds-supabase",
+      "version": "0.4.0",
+      "protocolVersion": "2025-11-25"
+    },
+    "cases_total": 89,
+    "pass": 89,
+    "fail": 0,
+    "tools_covered": [
+      "create_auth_user",
+      "delete_auth_user",
+      "execute_sql",
+      "explain_query",
+      "generate_typescript_types",
+      "get_advisors",
+      "get_auth_user",
+      "get_cron_job_history",
+      "get_database_connections",
+      "get_database_stats",
+      "get_function_definition",
+      "get_index_stats",
+      "get_logs",
+      "get_project_url",
+      "get_rls_status",
+      "get_storage_config",
+      "get_trigger_definition",
+      "get_vector_index_stats",
+      "list_auth_users",
+      "list_available_extensions",
+      "list_constraints",
+      "list_cron_jobs",
+      "list_database_functions",
+      "list_extensions",
+      "list_foreign_keys",
+      "list_indexes",
+      "list_realtime_publications",
+      "list_rls_policies",
+      "list_storage_buckets",
+      "list_storage_objects",
+      "list_table_columns",
+      "list_tables",
+      "list_triggers",
+      "list_vector_indexes",
+      "rebuild_hooks",
+      "update_auth_user",
+      "update_storage_config",
+      "verify_jwt_secret"
+    ],
+    "tools_expected": [
+      "list_tables",
+      "list_extensions",
+      "execute_sql",
+      "get_database_connections",
+      "get_database_stats",
+      "get_project_url",
+      "generate_typescript_types",
+      "rebuild_hooks",
+      "verify_jwt_secret",
+      "list_auth_users",
+      "get_auth_user",
+      "delete_auth_user",
+      "create_auth_user",
+      "update_auth_user",
+      "list_storage_buckets",
+      "list_storage_objects",
+      "list_realtime_publications",
+      "list_cron_jobs",
+      "list_vector_indexes",
+      "get_logs",
+      "get_advisors",
+      "get_storage_config",
+      "update_storage_config",
+      "list_table_columns",
+      "list_indexes",
+      "list_constraints",
+      "list_foreign_keys",
+      "list_rls_policies",
+      "list_triggers",
+      "list_database_functions",
+      "get_function_definition",
+      "get_trigger_definition",
+      "get_rls_status",
+      "list_available_extensions",
+      "get_cron_job_history",
+      "get_index_stats",
+      "get_vector_index_stats",
+      "explain_query"
+    ],
+    "all_tools_covered": true,
+    "cleanup_baseline_ok": true,
+    "by_group": {
+      "surface": {
+        "total": 1,
+        "pass": 1,
+        "fail": 0
+      },
+      "baseline": {
+        "total": 1,
+        "pass": 1,
+        "fail": 0
+      },
+      "setup": {
+        "total": 15,
+        "pass": 15,
+        "fail": 0
+      },
+      "database": {
+        "total": 11,
+        "pass": 11,
+        "fail": 0
+      },
+      "project": {
+        "total": 4,
+        "pass": 4,
+        "fail": 0
+      },
+      "auth_users": {
+        "total": 12,
+        "pass": 12,
+        "fail": 0
+      },
+      "storage": {
+        "total": 2,
+        "pass": 2,
+        "fail": 0
+      },
+      "platform": {
+        "total": 9,
+        "pass": 9,
+        "fail": 0
+      },
+      "inspection": {
+        "total": 30,
+        "pass": 30,
+        "fail": 0
+      },
+      "cleanup": {
+        "total": 4,
+        "pass": 4,
+        "fail": 0
+      }
+    }
+  },
+  "cases": [
+    {
+      "id": "C001",
+      "group": "surface",
+      "tool": "(tools/list)",
+      "args": null,
+      "expect": "43 tools registered in upstream order",
+      "kind": "surface",
+      "verdict": "PASS",
+      "note": "38 tools, order ok",
+      "duration_ms": 3
+    },
+    {
+      "id": "B001",
+      "group": "baseline",
+      "tool": "list_tables",
+      "args": {},
+      "expect": "snapshot table list for cleanup verification",
+      "is_error": false,
+      "payload_head": "[{\"name\": \"_http_response\", \"schema\": \"net\", \"comment\": null}, {\"name\": \"http_request_queue\", \"schema\": \"net\", \"comment\": null}, {\"name\": \"check_ins\", \"schema\": \"public\", \"comment\": null}, {\"name\": \"classes\", \"schema\": \"public\", \"comment\": null}, {\"name\": \"migrations\", \"schema\": \"public\", \"comment\": null}, {\"name\": \"students\", \"schema\": \"public\", \"comment\": null}, {\"name\": \"secrets\", \"schema\": \"va",
+      "verdict": "PASS",
+      "note": "baseline captured",
+      "duration_ms": 156
+    },
+    {
+      "id": "S01",
+      "group": "setup",
+      "tool": "execute_sql",
+      "args": {
+        "sql": "CREATE SCHEMA _mcp_e2e"
+      },
+      "expect": "success envelope",
+      "is_error": false,
+      "payload_head": "[{\"success\": true, \"rows_affected\": 0}]",
+      "verdict": "PASS",
+      "note": "success envelope",
+      "duration_ms": 41
+    },
+    {
+      "id": "S02",
+      "group": "setup",
+      "tool": "execute_sql",
+      "args": {
+        "sql": "CREATE TABLE _mcp_e2e.owners (id int PRIMARY KEY)"
+      },
+      "expect": "success envelope",
+      "is_error": false,
+      "payload_head": "[{\"success\": true, \"rows_affected\": 0}]",
+      "verdict": "PASS",
+      "note": "success envelope",
+      "duration_ms": 58
+    },
+    {
+      "id": "S03",
+      "group": "setup",
+      "tool": "execute_sql",
+      "args": {
+        "sql": "CREATE TABLE _mcp_e2e.items (id serial PRIMARY KEY, name text NOT NULL UNIQUE, tag text DEFAULT 'x', owner_id int, CONSTRAINT items_name_len CHECK (length(name) < 100))"
+      },
+      "expect": "success envelope",
+      "is_error": false,
+      "payload_head": "[{\"success\": true, \"rows_affected\": 0}]",
+      "verdict": "PASS",
+      "note": "success envelope",
+      "duration_ms": 123
+    },
+    {
+      "id": "S04",
+      "group": "setup",
+      "tool": "execute_sql",
+      "args": {
+        "sql": "ALTER TABLE _mcp_e2e.items ADD CONSTRAINT items_owner_fkey FOREIGN KEY (owner_id) REFERENCES _mcp_e2e.owners(id) ON DELETE CASCADE"
+      },
+      "expect": "success envelope",
+      "is_error": false,
+      "payload_head": "[{\"success\": true, \"rows_affected\": 0}]",
+      "verdict": "PASS",
+      "note": "success envelope",
+      "duration_ms": 8145
+    },
+    {
+      "id": "S05",
+      "group": "setup",
+      "tool": "execute_sql",
+      "args": {
+        "sql": "CREATE INDEX _mcp_e2e_items_tag_idx ON _mcp_e2e.items(tag)"
+      },
+      "expect": "success envelope",
+      "is_error": false,
+      "payload_head": "[{\"success\": true, \"rows_affected\": 0}]",
+      "verdict": "PASS",
+      "note": "success envelope",
+      "duration_ms": 46
+    },
+    {
+      "id": "S06",
+      "group": "setup",
+      "tool": "execute_sql",
+      "args": {
+        "sql": "INSERT INTO _mcp_e2e.owners VALUES (1),(2)"
+      },
+      "expect": "rows_affected=2",
+      "is_error": false,
+      "payload_head": "[{\"success\": true, \"rows_affected\": 2}]",
+      "verdict": "PASS",
+      "note": "exact rows_affected envelope",
+      "duration_ms": 43
+    },
+    {
+      "id": "S07",
+      "group": "setup",
+      "tool": "execute_sql",
+      "args": {
+        "sql": "INSERT INTO _mcp_e2e.items (name, tag, owner_id) VALUES ('alpha','a',1),('beta','b',1),('gamma','c',2)"
+      },
+      "expect": "rows_affected=3 (trigger writes audit rows)",
+      "is_error": false,
+      "payload_head": "[{\"success\": true, \"rows_affected\": 3}]",
+      "verdict": "PASS",
+      "note": "exact rows_affected envelope",
+      "duration_ms": 42
+    },
+    {
+      "id": "S08",
+      "group": "setup",
+      "tool": "execute_sql",
+      "args": {
+        "sql": "CREATE TABLE _mcp_e2e.audit_log (id int, event text)"
+      },
+      "expect": "success envelope",
+      "is_error": false,
+      "payload_head": "[{\"success\": true, \"rows_affected\": 0}]",
+      "verdict": "PASS",
+      "note": "success envelope",
+      "duration_ms": 46
+    },
+    {
+      "id": "S09",
+      "group": "setup",
+      "tool": "execute_sql",
+      "args": {
+        "sql": "CREATE FUNCTION _mcp_e2e.audit_fn() RETURNS trigger LANGUAGE plpgsql AS $$ BEGIN INSERT INTO _mcp_e2e.audit_log VALUES (NEW.id, 'insert'); RETURN NEW; END $$"
+      },
+      "expect": "success envelope",
+      "is_error": false,
+      "payload_head": "[{\"success\": true, \"rows_affected\": 0}]",
+      "verdict": "PASS",
+      "note": "success envelope",
+      "duration_ms": 53
+    },
+    {
+      "id": "S10",
+      "group": "setup",
+      "tool": "execute_sql",
+      "args": {
+        "sql": "CREATE TRIGGER items_audit BEFORE INSERT ON _mcp_e2e.items FOR EACH ROW EXECUTE FUNCTION _mcp_e2e.audit_fn()"
+      },
+      "expect": "success envelope",
+      "is_error": false,
+      "payload_head": "[{\"success\": true, \"rows_affected\": 0}]",
+      "verdict": "PASS",
+      "note": "success envelope",
+      "duration_ms": 45
+    },
+    {
+      "id": "S11",
+      "group": "setup",
+      "tool": "execute_sql",
+      "args": {
+        "sql": "CREATE TABLE _mcp_e2e.secure (id int)"
+      },
+      "expect": "success envelope",
+      "is_error": false,
+      "payload_head": "[{\"success\": true, \"rows_affected\": 0}]",
+      "verdict": "PASS",
+      "note": "success envelope",
+      "duration_ms": 48
+    },
+    {
+      "id": "S12",
+      "group": "setup",
+      "tool": "execute_sql",
+      "args": {
+        "sql": "ALTER TABLE _mcp_e2e.secure ENABLE ROW LEVEL SECURITY"
+      },
+      "expect": "success envelope",
+      "is_error": false,
+      "payload_head": "[{\"success\": true, \"rows_affected\": 0}]",
+      "verdict": "PASS",
+      "note": "success envelope",
+      "duration_ms": 46
+    },
+    {
+      "id": "S13",
+      "group": "setup",
+      "tool": "execute_sql",
+      "args": {
+        "sql": "ALTER TABLE _mcp_e2e.secure FORCE ROW LEVEL SECURITY"
+      },
+      "expect": "success envelope",
+      "is_error": false,
+      "payload_head": "[{\"success\": true, \"rows_affected\": 0}]",
+      "verdict": "PASS",
+      "note": "success envelope",
+      "duration_ms": 53
+    },
+    {
+      "id": "S14",
+      "group": "setup",
+      "tool": "execute_sql",
+      "args": {
+        "sql": "CREATE POLICY secure_select ON _mcp_e2e.secure FOR SELECT TO public USING (true)"
+      },
+      "expect": "success envelope",
+      "is_error": false,
+      "payload_head": "[{\"success\": true, \"rows_affected\": 0}]",
+      "verdict": "PASS",
+      "note": "success envelope",
+      "duration_ms": 49
+    },
+    {
+      "id": "S15",
+      "group": "setup",
+      "tool": "execute_sql",
+      "args": {
+        "sql": "CREATE FUNCTION _mcp_e2e.note() RETURNS text LANGUAGE sql AS $$ SELECT 'scratch-note' $$"
+      },
+      "expect": "success envelope",
+      "is_error": false,
+      "payload_head": "[{\"success\": true, \"rows_affected\": 0}]",
+      "verdict": "PASS",
+      "note": "success envelope",
+      "duration_ms": 41
+    },
+    {
+      "id": "T01",
+      "group": "database",
+      "tool": "list_tables",
+      "args": {},
+      "expect": "fixture tables visible",
+      "is_error": false,
+      "payload_head": "[{\"name\": \"audit_log\", \"schema\": \"_mcp_e2e\", \"comment\": null}, {\"name\": \"items\", \"schema\": \"_mcp_e2e\", \"comment\": null}, {\"name\": \"owners\", \"schema\": \"_mcp_e2e\", \"comment\": null}, {\"name\": \"secure\", \"schema\": \"_mcp_e2e\", \"comment\": null}, {\"name\": \"_http_response\", \"schema\": \"net\", \"comment\": null}, {\"name\": \"http_request_queue\", \"schema\": \"net\", \"comment\": null}, {\"name\": \"check_ins\", \"schema\": \"",
+      "verdict": "PASS",
+      "note": "contains _mcp_e2e.items/owners/audit_log/secure",
+      "duration_ms": 48
+    },
+    {
+      "id": "T02",
+      "group": "database",
+      "tool": "list_extensions",
+      "args": {},
+      "expect": "pg_net installed with version",
+      "is_error": false,
+      "payload_head": "[{\"name\": \"pg_graphql\", \"schema\": \"graphql\", \"version\": \"1.5.12\", \"description\": \"pg_graphql: GraphQL support\"}, {\"name\": \"pg_net\", \"schema\": \"extensions\", \"version\": \"0.20.2\", \"description\": \"Async HTTP\"}, {\"name\": \"pgcrypto\", \"schema\": \"extensions\", \"version\": \"1.4\", \"description\": \"cryptographic functions\"}, {\"name\": \"pgjwt\", \"schema\": \"extensions\", \"version\": \"0.2.0\", \"description\": \"JSON Web ",
+      "verdict": "PASS",
+      "note": "pg_net row with version",
+      "duration_ms": 45
+    },
+    {
+      "id": "T05",
+      "group": "database",
+      "tool": "execute_sql",
+      "args": {
+        "sql": "SELECT 1 AS one"
+      },
+      "expect": "[{one: 1}]",
+      "is_error": false,
+      "payload_head": "[{\"one\": 1}]",
+      "verdict": "PASS",
+      "note": "exact payload",
+      "duration_ms": 52
+    },
+    {
+      "id": "T06",
+      "group": "database",
+      "tool": "execute_sql",
+      "args": {
+        "sql": "SELECT count(*) AS n FROM _mcp_e2e.items",
+        "read_only": true
+      },
+      "expect": "read_only SELECT allowed, n=3",
+      "is_error": false,
+      "payload_head": "[{\"n\": 3}]",
+      "verdict": "PASS",
+      "note": "exact payload",
+      "duration_ms": 43
+    },
+    {
+      "id": "T07",
+      "group": "database",
+      "tool": "execute_sql",
+      "args": {
+        "sql": "UPDATE _mcp_e2e.items SET tag = 'z'",
+        "read_only": true
+      },
+      "expect": "in-DB whitelist rejects UPDATE (42501)",
+      "is_error": false,
+      "payload_head": "{\"error\": {\"code\": \"42501\", \"message\": \"SQL Error (42501): execute_sql: read_only mode allows only SELECT / WITH / VALUES / TABLE / EXPLAIN\", \"hint\": \"Inspect the error message and adjust the tool call.\"}}",
+      "verdict": "PASS",
+      "note": "error message contains: read_only mode allows only SELECT / WITH / VALUES / TABLE / EXPLAIN",
+      "duration_ms": 99
+    },
+    {
+      "id": "T08",
+      "group": "database",
+      "tool": "execute_sql",
+      "args": {
+        "sql": "WITH x AS (INSERT INTO _mcp_e2e.audit_log VALUES (1,'w') RETURNING 1) SELECT * FROM x",
+        "read_only": true
+      },
+      "expect": "in-DB whitelist rejects data-modifying WITH (42501)",
+      "is_error": false,
+      "payload_head": "{\"error\": {\"code\": \"42501\", \"message\": \"SQL Error (42501): execute_sql: read_only mode does not allow data-modifying statements inside WITH\", \"hint\": \"Inspect the error message and adjust the tool call.\"}}",
+      "verdict": "PASS",
+      "note": "error message contains: read_only mode does not allow data-modifying statements inside WITH",
+      "duration_ms": 43
+    },
+    {
+      "id": "T09",
+      "group": "database",
+      "tool": "execute_sql",
+      "args": {
+        "sql": "SELECT * FROM _mcp_e2e.missing_table"
+      },
+      "expect": "SQL error surfaced verbatim (42P01)",
+      "is_error": false,
+      "payload_head": "{\"error\": {\"code\": \"42P01\", \"message\": \"SQL Error (42P01): relation \\\"_mcp_e2e.missing_table\\\" does not exist\", \"hint\": \"Inspect the error message and adjust the tool call.\"}}",
+      "verdict": "PASS",
+      "note": "error message contains: relation \"_mcp_e2e.missing_table\" does not exist",
+      "duration_ms": 42
+    },
+    {
+      "id": "T10",
+      "group": "database",
+      "tool": "execute_sql",
+      "args": {
+        "sql": "INSERT INTO _mcp_e2e.audit_log VALUES (99, 'e2e-write')"
+      },
+      "expect": "write path, rows_affected=1",
+      "is_error": false,
+      "payload_head": "[{\"success\": true, \"rows_affected\": 1}]",
+      "verdict": "PASS",
+      "note": "exact rows_affected envelope",
+      "duration_ms": 45
+    },
+    {
+      "id": "T11",
+      "group": "database",
+      "tool": "execute_sql",
+      "args": {
+        "sql": "SELECT count(*) AS n FROM _mcp_e2e.audit_log"
+      },
+      "expect": "only the explicit e2e write (trigger created after setup inserts), n=1",
+      "is_error": false,
+      "payload_head": "[{\"n\": 1}]",
+      "verdict": "PASS",
+      "note": "exact payload",
+      "duration_ms": 103
+    },
+    {
+      "id": "T12",
+      "group": "database",
+      "tool": "get_database_connections",
+      "args": {},
+      "expect": ">=1 client backend rows with pid",
+      "is_error": false,
+      "payload_head": "[{\"pid\": 18303, \"query\": \"select sum(blks_hit) from pg_stat_database;\", \"state\": \"idle\", \"datname\": \"postgres\", \"usename\": \"rdsMetric\", \"client_addr\": null, \"backend_start\": \"2026-10-30 12:51:48.154265+08\", \"application_name\": \"\"}, {\"pid\": 18557, \"query\": \"SELECT sum(sessions_fatal) FROM pg_stat_database WHERE datname not in ('template1', 'template0');\", \"state\": \"idle\", \"datname\": \"postgres\", \"us",
+      "verdict": "PASS",
+      "note": "rows with pid",
+      "duration_ms": 76
+    },
+    {
+      "id": "T13",
+      "group": "database",
+      "tool": "get_database_stats",
+      "args": {},
+      "expect": "expected error: PG17 instance lacks pg_stat_bgwriter.checkpoints_timed",
+      "is_error": false,
+      "payload_head": "{\"error\": {\"code\": \"42703\", \"message\": \"SQL Error (42703): column \\\"checkpoints_timed\\\" does not exist\", \"hint\": \"Inspect the error message and adjust the tool call.\"}}",
+      "verdict": "PASS",
+      "note": "error message contains: column \"checkpoints_timed\" does not exist",
+      "duration_ms": 70
+    },
+    {
+      "id": "T14",
+      "group": "project",
+      "tool": "get_project_url",
+      "args": {},
+      "expect": "configured gateway URL",
+      "is_error": false,
+      "payload_head": "{\"project_url\": \"http://60.204.240.112:8443\"}",
+      "verdict": "PASS",
+      "note": "exact payload",
+      "duration_ms": 2
+    },
+    {
+      "id": "T15",
+      "group": "project",
+      "tool": "generate_typescript_types",
+      "args": {
+        "output_path": "/tmp/never-written.ts"
+      },
+      "expect": "structured failure: direct connections not supported",
+      "is_error": false,
+      "payload_head": "{\"success\": false, \"message\": \"Error: Direct database connections are not supported on this deployment. Cannot generate types.\", \"platform\": \"darwin\"}",
+      "verdict": "PASS",
+      "note": "success=false + message + platform",
+      "duration_ms": 2
+    },
+    {
+      "id": "T16",
+      "group": "project",
+      "tool": "rebuild_hooks",
+      "args": {},
+      "expect": "pg_net worker restart requested",
+      "is_error": false,
+      "payload_head": "{\"success\": true, \"message\": \"pg_net worker restart requested successfully.\"}",
+      "verdict": "PASS",
+      "note": "exact success message",
+      "duration_ms": 54
+    },
+    {
+      "id": "T17",
+      "group": "project",
+      "tool": "verify_jwt_secret",
+      "args": {},
+      "expect": "no JWT secret in env -> not_configured (never leaks the secret)",
+      "is_error": false,
+      "payload_head": "{\"jwt_secret_status\": \"not_configured\"}",
+      "verdict": "PASS",
+      "note": "exact payload",
+      "duration_ms": 2
+    },
+    {
+      "id": "T18",
+      "group": "auth_users",
+      "tool": "list_auth_users",
+      "args": {},
+      "expect": "real users mapped to the upstream 7-field shape (also stashes probe ids)",
+      "is_error": false,
+      "payload_head": "[{\"id\": \"5773cc6a-52a6-4554-8e58-2d7253257d96\", \"email\": \"t2-1793382770105@demo.edu\", \"role\": \"authenticated\", \"created_at\": \"2026-10-31T01:52:48.687163+08:00\", \"last_sign_in_at\": \"2026-10-31T01:52:49.044582+08:00\", \"raw_app_meta_data\": {\"provider\": \"email\", \"providers\": [\"email\"]}, \"raw_user_meta_data\": {\"email\": \"t2-1793382770105@demo.edu\", \"email_verified\": true, \"phone_verified\": false, \"sub\":",
+      "verdict": "PASS",
+      "note": "6 users, 7-field mapped shape, probe stashed",
+      "duration_ms": 8215
+    },
+    {
+      "id": "T18b",
+      "group": "auth_users",
+      "tool": "list_auth_users",
+      "args": {
+        "limit": 2,
+        "offset": 1
+      },
+      "expect": "limit/offset window equals the SQL ORDER BY created_at DESC window",
+      "is_error": false,
+      "payload_head": "[{\"id\": \"8b40b972-1298-4737-b3f6-29897399b019\", \"email\": \"t2-1793381120850@demo.edu\", \"role\": \"authenticated\", \"created_at\": \"2026-10-31T01:25:19.423818+08:00\", \"last_sign_in_at\": \"2026-10-31T01:25:19.778931+08:00\", \"raw_app_meta_data\": {\"provider\": \"email\", \"providers\": [\"email\"]}, \"raw_user_meta_data\": {\"email\": \"t2-1793381120850@demo.edu\", \"email_verified\": true, \"phone_verified\": false, \"sub\":",
+      "verdict": "PASS",
+      "note": "admin window == SQL window (2 ids)",
+      "duration_ms": 194
+    },
+    {
+      "id": "T18c",
+      "group": "auth_users",
+      "tool": "list_auth_users",
+      "args": {
+        "limit": 3,
+        "offset": 3
+      },
+      "expect": "second window also equals the SQL window",
+      "is_error": false,
+      "payload_head": "[{\"id\": \"e8d905dc-cb49-44ea-b982-8a5fcdecdee9\", \"email\": \"t2-1793379154471@demo.edu\", \"role\": \"authenticated\", \"created_at\": \"2026-10-31T00:52:33.075272+08:00\", \"last_sign_in_at\": \"2026-10-31T00:52:33.485893+08:00\", \"raw_app_meta_data\": {\"provider\": \"email\", \"providers\": [\"email\"]}, \"raw_user_meta_data\": {\"email\": \"t2-1793379154471@demo.edu\", \"email_verified\": true, \"phone_verified\": false, \"sub\":",
+      "verdict": "PASS",
+      "note": "admin window == SQL window (3 ids)",
+      "duration_ms": 147
+    },
+    {
+      "id": "T19",
+      "group": "auth_users",
+      "tool": "get_auth_user",
+      "args": {
+        "user_id": "5773cc6a-52a6-4554-8e58-2d7253257d96"
+      },
+      "expect": "get by id returns the stashed user with matching email",
+      "is_error": false,
+      "payload_head": "{\"id\": \"5773cc6a-52a6-4554-8e58-2d7253257d96\", \"email\": \"t2-1793382770105@demo.edu\", \"role\": \"authenticated\", \"created_at\": \"2026-10-31T01:52:48.687163+08:00\", \"last_sign_in_at\": \"2026-10-31T01:52:49.044582+08:00\", \"raw_app_meta_data\": {\"provider\": \"email\", \"providers\": [\"email\"]}, \"raw_user_meta_data\": {\"email\": \"t2-1793382770105@demo.edu\", \"email_verified\": true, \"phone_verified\": false, \"sub\": ",
+      "verdict": "PASS",
+      "note": "stashed user returned with matching email",
+      "duration_ms": 8096
+    },
+    {
+      "id": "T19b",
+      "group": "auth_users",
+      "tool": "get_auth_user",
+      "args": {
+        "user_id": "00000000-0000-0000-0000-000000000000"
+      },
+      "expect": "missing user raises the upstream not-found message",
+      "is_error": false,
+      "payload_head": "{\"error\": {\"code\": \"MCP_USER_NOT_FOUND\", \"message\": \"User with ID 00000000-0000-0000-0000-000000000000 not found.\", \"hint\": \"Inspect the error message and adjust the tool call.\"}}",
+      "verdict": "PASS",
+      "note": "error message contains: User with ID 00000000-0000-0000-0000-000000000000 not found.",
+      "duration_ms": 63
+    },
+    {
+      "id": "T21",
+      "group": "auth_users",
+      "tool": "create_auth_user",
+      "args": {
+        "email": "e2e-c-1793879764@demo.local",
+        "password": "probe-Passw0rd",
+        "user_metadata": {
+          "name": "lifecycle"
+        }
+      },
+      "expect": "scratch user created with mapped shape (id stashed)",
+      "is_error": false,
+      "payload_head": "{\"id\": \"31d23498-9a05-45dd-84f2-b6cb2ddf5491\", \"email\": \"e2e-c-1793879764@demo.local\", \"role\": \"authenticated\", \"created_at\": \"2026-11-05T19:55:56.55628+08:00\", \"last_sign_in_at\": null, \"raw_app_meta_data\": {\"provider\": \"email\", \"providers\": [\"email\"]}, \"raw_user_meta_data\": {\"email_verified\": true, \"name\": \"lifecycle\"}}",
+      "verdict": "PASS",
+      "note": "scratch user e2e-c-1793879764@demo.local created and stashed",
+      "duration_ms": 169
+    },
+    {
+      "id": "T21b",
+      "group": "auth_users",
+      "tool": "create_auth_user",
+      "args": {
+        "email": "t2-1793381120850@demo.edu",
+        "password": "probe-Passw0rd"
+      },
+      "expect": "duplicate email raises the exact upstream message",
+      "is_error": false,
+      "payload_head": "{\"error\": {\"code\": \"23505\", \"message\": \"User creation failed: Email 't2-1793381120850@demo.edu' likely already exists.\", \"hint\": \"Inspect the error message and adjust the tool call.\"}}",
+      "verdict": "PASS",
+      "note": "error message contains: likely already exists.",
+      "duration_ms": 96
+    },
+    {
+      "id": "T22",
+      "group": "auth_users",
+      "tool": "update_auth_user",
+      "args": {
+        "user_id": "31d23498-9a05-45dd-84f2-b6cb2ddf5491",
+        "password": "probe-Passw0rd2",
+        "user_metadata": {
+          "name": "lifecycle2"
+        }
+      },
+      "expect": "update replaces metadata and returns updated_at",
+      "is_error": false,
+      "payload_head": "{\"id\": \"31d23498-9a05-45dd-84f2-b6cb2ddf5491\", \"email\": \"e2e-c-1793879764@demo.local\", \"role\": \"authenticated\", \"created_at\": \"2026-11-05T19:55:56.55628+08:00\", \"last_sign_in_at\": null, \"raw_app_meta_data\": {\"provider\": \"email\", \"providers\": [\"email\"]}, \"raw_user_meta_data\": {\"email_verified\": true, \"name\": \"lifecycle2\"}, \"updated_at\": \"2026-11-05T19:55:56.833924+08:00\"}",
+      "verdict": "PASS",
+      "note": "metadata replaced, updated_at present",
+      "duration_ms": 173
+    },
+    {
+      "id": "T22b",
+      "group": "auth_users",
+      "tool": "update_auth_user",
+      "args": {
+        "user_id": "31d23498-9a05-45dd-84f2-b6cb2ddf5491",
+        "email": "t2-1793381120850@demo.edu"
+      },
+      "expect": "duplicate email on update raises the exact upstream message",
+      "is_error": false,
+      "payload_head": "{\"error\": {\"code\": \"23505\", \"message\": \"User update failed: Email 't2-1793381120850@demo.edu' likely already exists for another user.\", \"hint\": \"Inspect the error message and adjust the tool call.\"}}",
+      "verdict": "PASS",
+      "note": "error message contains: likely already exists for another user.",
+      "duration_ms": 109
+    },
+    {
+      "id": "T22c",
+      "group": "auth_users",
+      "tool": "update_auth_user",
+      "args": {
+        "user_id": "00000000-0000-0000-0000-000000000000",
+        "email": "ghost@x.io"
+      },
+      "expect": "missing user raises the upstream update message",
+      "is_error": false,
+      "payload_head": "{\"error\": {\"code\": \"MCP_USER_NOT_FOUND\", \"message\": \"User update failed: User with ID 00000000-0000-0000-0000-000000000000 not found or no rows affected.\", \"hint\": \"Inspect the error message and adjust the tool call.\"}}",
+      "verdict": "PASS",
+      "note": "error message contains: User update failed: User with ID 00000000-0000-0000-0000-000000000000 not found or no rows affected.",
+      "duration_ms": 55
+    },
+    {
+      "id": "T20",
+      "group": "auth_users",
+      "tool": "delete_auth_user",
+      "args": {
+        "user_id": "31d23498-9a05-45dd-84f2-b6cb2ddf5491"
+      },
+      "expect": "delete scratch user returns the exact upstream success message",
+      "is_error": false,
+      "payload_head": "{\"success\": true, \"message\": \"Successfully deleted user with ID: 31d23498-9a05-45dd-84f2-b6cb2ddf5491\"}",
+      "verdict": "PASS",
+      "note": "exact upstream success message",
+      "duration_ms": 123
+    },
+    {
+      "id": "T20b",
+      "group": "auth_users",
+      "tool": "delete_auth_user",
+      "args": {
+        "user_id": "31d23498-9a05-45dd-84f2-b6cb2ddf5491"
+      },
+      "expect": "deleting again returns the structured upstream not-found message",
+      "is_error": false,
+      "payload_head": "{\"success\": false, \"message\": \"User with ID 31d23498-9a05-45dd-84f2-b6cb2ddf5491 not found or could not be deleted.\"}",
+      "verdict": "PASS",
+      "note": "structured upstream not-found message",
+      "duration_ms": 63
+    },
+    {
+      "id": "T23",
+      "group": "storage",
+      "tool": "list_storage_buckets",
+      "args": {},
+      "expect": "expected error: direct connections removed (0.4.0)",
+      "is_error": false,
+      "payload_head": "{\"error\": {\"code\": \"MCP_UNSUPPORTED_OPERATION\", \"message\": \"Direct database connections are not supported on this deployment; list_storage_buckets is pending an RPC-channel rework.\", \"hint\": \"Inspect the error message and adjust the tool call.\"}}",
+      "verdict": "PASS",
+      "note": "error message contains: Direct database connections are not supported on this deployment; list_storage_buckets is pending an RPC-channel rework.",
+      "duration_ms": 3
+    },
+    {
+      "id": "T24",
+      "group": "storage",
+      "tool": "list_storage_objects",
+      "args": {
+        "bucket_id": "x"
+      },
+      "expect": "expected error: direct connections removed (0.4.0)",
+      "is_error": false,
+      "payload_head": "{\"error\": {\"code\": \"MCP_UNSUPPORTED_OPERATION\", \"message\": \"Direct database connections are not supported on this deployment; list_storage_objects is pending an RPC-channel rework.\", \"hint\": \"Inspect the error message and adjust the tool call.\"}}",
+      "verdict": "PASS",
+      "note": "error message contains: Direct database connections are not supported on this deployment; list_storage_objects is pending an RPC-channel rework.",
+      "duration_ms": 2
+    },
+    {
+      "id": "T25",
+      "group": "platform",
+      "tool": "list_realtime_publications",
+      "args": {},
+      "expect": "expected error: direct connections removed (0.4.0)",
+      "is_error": false,
+      "payload_head": "{\"error\": {\"code\": \"MCP_UNSUPPORTED_OPERATION\", \"message\": \"Direct database connections are not supported on this deployment; list_realtime_publications is pending an RPC-channel rework.\", \"hint\": \"Inspect the error message and adjust the tool call.\"}}",
+      "verdict": "PASS",
+      "note": "error message contains: Direct database connections are not supported on this deployment; list_realtime_publications is pending an RPC-channel rework.",
+      "duration_ms": 2
+    },
+    {
+      "id": "T26",
+      "group": "platform",
+      "tool": "list_cron_jobs",
+      "args": {},
+      "expect": "[] (pg_cron not installed)",
+      "is_error": false,
+      "payload_head": "[]",
+      "verdict": "PASS",
+      "note": "empty list",
+      "duration_ms": 44
+    },
+    {
+      "id": "T27",
+      "group": "platform",
+      "tool": "list_vector_indexes",
+      "args": {},
+      "expect": "[] (no pgvector indexes)",
+      "is_error": false,
+      "payload_head": "[]",
+      "verdict": "PASS",
+      "note": "empty list",
+      "duration_ms": 48
+    },
+    {
+      "id": "T30",
+      "group": "platform",
+      "tool": "get_logs",
+      "args": {
+        "service": "postgres",
+        "limit": 10
+      },
+      "expect": "none-source fallback with message",
+      "is_error": false,
+      "payload_head": "{\"logs\": [], \"source\": \"none\", \"service\": \"postgres\", \"message\": \"Log access not available for postgres. Self-hosted installations may need to configure the analytics stack or enable PostgreSQL CSV logging.\"}",
+      "verdict": "PASS",
+      "note": "source=none + message",
+      "duration_ms": 87
+    },
+    {
+      "id": "T31",
+      "group": "platform",
+      "tool": "get_logs",
+      "args": {
+        "service": "auth",
+        "limit": 5
+      },
+      "expect": "none-source fallback for auth service",
+      "is_error": false,
+      "payload_head": "{\"logs\": [], \"source\": \"none\", \"service\": \"auth\", \"message\": \"Log access not available for auth. Self-hosted installations may need to configure the analytics stack or enable PostgreSQL CSV logging.\"}",
+      "verdict": "PASS",
+      "note": "source=none + service=auth",
+      "duration_ms": 43
+    },
+    {
+      "id": "T32",
+      "group": "platform",
+      "tool": "get_advisors",
+      "args": {
+        "type": "security"
+      },
+      "expect": "issues array + total_count consistent",
+      "is_error": false,
+      "payload_head": "{\"issues\": [{\"code\": \"0008\", \"name\": \"rls_enabled_no_policy\", \"level\": \"error\", \"description\": \"Tables with RLS enabled but no policies defined (blocks all access)\", \"detail\": \"Table: auth.schema_migrations has RLS enabled but no policies\", \"remediation\": \"Add a policy or disable RLS if not needed\", \"affected_object\": \"auth.schema_migrations\"}, {\"code\": \"0008\", \"name\": \"rls_enabled_no_policy\", \"le",
+      "verdict": "PASS",
+      "note": "issues/total_count consistent",
+      "duration_ms": 167
+    },
+    {
+      "id": "T33",
+      "group": "platform",
+      "tool": "get_advisors",
+      "args": {
+        "type": "performance"
+      },
+      "expect": "issues array + total_count consistent",
+      "is_error": false,
+      "payload_head": "{\"issues\": [{\"code\": \"0001\", \"name\": \"unindexed_foreign_keys\", \"level\": \"warning\", \"description\": \"Foreign keys without covering indexes can impact performance\", \"detail\": \"FK on auth.\\\"auth.mfa_challenges\\\" (factor_id) lacks an index\", \"remediation\": \"Create an index on the foreign key columns\", \"affected_object\": \"auth.mfa_challenges\"}, {\"code\": \"0001\", \"name\": \"unindexed_foreign_keys\", \"level\":",
+      "verdict": "PASS",
+      "note": "issues/total_count consistent",
+      "duration_ms": 199
+    },
+    {
+      "id": "T34",
+      "group": "platform",
+      "tool": "get_storage_config",
+      "args": {},
+      "expect": "storage schema absent -> empty buckets + global config",
+      "is_error": false,
+      "payload_head": "{\"buckets\": [], \"global_config\": {\"max_file_size_limit\": null, \"bucket_count\": 0}}",
+      "verdict": "PASS",
+      "note": "exact empty payload",
+      "duration_ms": 210
+    },
+    {
+      "id": "T35",
+      "group": "platform",
+      "tool": "update_storage_config",
+      "args": {
+        "bucket_id": "x",
+        "public": true
+      },
+      "expect": "structured failure: bucket not found (storage schema exists, empty)",
+      "is_error": false,
+      "payload_head": "{\"success\": false, \"bucket\": null, \"message\": \"Bucket 'x' not found\"}",
+      "verdict": "PASS",
+      "note": "exact structured failure",
+      "duration_ms": 91
+    },
+    {
+      "id": "T36",
+      "group": "inspection",
+      "tool": "list_table_columns",
+      "args": {
+        "schema": "_mcp_e2e",
+        "table": "items"
+      },
+      "expect": "4 columns with types/defaults/constraints",
+      "is_error": false,
+      "payload_head": "[{\"data_type\": \"integer\", \"column_name\": \"id\", \"description\": null, \"is_identity\": false, \"is_nullable\": false, \"is_generated\": false, \"numeric_scale\": null, \"column_default\": \"nextval('_mcp_e2e.items_id_seq'::regclass)\", \"ordinal_position\": 1, \"numeric_precision\": 65535, \"identity_generation\": null, \"generation_expression\": null, \"character_maximum_length\": null}, {\"data_type\": \"text\", \"column_na",
+      "verdict": "PASS",
+      "note": "column list + metadata",
+      "duration_ms": 48
+    },
+    {
+      "id": "T37",
+      "group": "inspection",
+      "tool": "list_table_columns",
+      "args": {
+        "table": "students"
+      },
+      "expect": "default schema=public, students columns",
+      "is_error": false,
+      "payload_head": "[{\"data_type\": \"uuid\", \"column_name\": \"id\", \"description\": null, \"is_identity\": false, \"is_nullable\": false, \"is_generated\": false, \"numeric_scale\": null, \"column_default\": \"gen_random_uuid()\", \"ordinal_position\": 1, \"numeric_precision\": null, \"identity_generation\": null, \"generation_expression\": null, \"character_maximum_length\": null}, {\"data_type\": \"uuid\", \"column_name\": \"class_id\", \"description",
+      "verdict": "PASS",
+      "note": "students columns returned",
+      "duration_ms": 48
+    },
+    {
+      "id": "T38",
+      "group": "inspection",
+      "tool": "list_table_columns",
+      "args": {
+        "schema": "9bad",
+        "table": "t"
+      },
+      "expect": "identifier validation error",
+      "is_error": false,
+      "payload_head": "{\"error\": {\"code\": \"MCP_VALIDATION_ERROR\", \"message\": \"Invalid schema name: 9bad\", \"hint\": \"Inspect the error message and adjust the tool call.\"}}",
+      "verdict": "PASS",
+      "note": "error message contains: Invalid schema name: 9bad",
+      "duration_ms": 1
+    },
+    {
+      "id": "T39",
+      "group": "inspection",
+      "tool": "list_indexes",
+      "args": {
+        "schema": "_mcp_e2e"
+      },
+      "expect": "PK + UNIQUE + explicit index present",
+      "is_error": false,
+      "payload_head": "[{\"size\": \"16 kB\", \"columns\": \"CREATE INDEX _mcp_e2e_items_tag_idx ON _mcp_e2e.items USING btree (tag)\", \"is_valid\": true, \"is_unique\": false, \"definition\": \"CREATE INDEX _mcp_e2e_items_tag_idx ON _mcp_e2e.items USING btree (tag)\", \"index_name\": \"_mcp_e2e_items_tag_idx\", \"index_type\": \"btree\", \"is_primary\": false, \"table_name\": \"items\", \"schema_name\": \"_mcp_e2e\"}, {\"size\": \"16 kB\", \"columns\": \"CRE",
+      "verdict": "PASS",
+      "note": "expected index set",
+      "duration_ms": 51
+    },
+    {
+      "id": "T40",
+      "group": "inspection",
+      "tool": "list_indexes",
+      "args": {
+        "table": "items"
+      },
+      "expect": "table filter without schema filter",
+      "is_error": false,
+      "payload_head": "[{\"size\": \"16 kB\", \"columns\": \"CREATE INDEX _mcp_e2e_items_tag_idx ON _mcp_e2e.items USING btree (tag)\", \"is_valid\": true, \"is_unique\": false, \"definition\": \"CREATE INDEX _mcp_e2e_items_tag_idx ON _mcp_e2e.items USING btree (tag)\", \"index_name\": \"_mcp_e2e_items_tag_idx\", \"index_type\": \"btree\", \"is_primary\": false, \"table_name\": \"items\", \"schema_name\": \"_mcp_e2e\"}, {\"size\": \"16 kB\", \"columns\": \"CRE",
+      "verdict": "PASS",
+      "note": "only items indexes",
+      "duration_ms": 43
+    },
+    {
+      "id": "T41",
+      "group": "inspection",
+      "tool": "list_indexes",
+      "args": {
+        "table": "9bad"
+      },
+      "expect": "identifier validation error",
+      "is_error": false,
+      "payload_head": "{\"error\": {\"code\": \"MCP_VALIDATION_ERROR\", \"message\": \"Invalid table name: 9bad\", \"hint\": \"Inspect the error message and adjust the tool call.\"}}",
+      "verdict": "PASS",
+      "note": "error message contains: Invalid table name: 9bad",
+      "duration_ms": 1
+    },
+    {
+      "id": "T42",
+      "group": "inspection",
+      "tool": "list_constraints",
+      "args": {
+        "schema": "_mcp_e2e"
+      },
+      "expect": "PRIMARY KEY / UNIQUE / CHECK / FOREIGN KEY all present",
+      "is_error": false,
+      "payload_head": "[{\"columns\": [\"id\"], \"definition\": \"NOT NULL id\", \"table_name\": \"items\", \"schema_name\": \"_mcp_e2e\", \"is_deferrable\": false, \"constraint_name\": \"items_id_not_null\", \"constraint_type\": \"n\", \"initially_deferred\": false}, {\"columns\": [\"name\"], \"definition\": \"UNIQUE (name)\", \"table_name\": \"items\", \"schema_name\": \"_mcp_e2e\", \"is_deferrable\": false, \"constraint_name\": \"items_name_key\", \"constraint_type\":",
+      "verdict": "PASS",
+      "note": "all four constraint kinds",
+      "duration_ms": 46
+    },
+    {
+      "id": "T43",
+      "group": "inspection",
+      "tool": "list_constraints",
+      "args": {
+        "constraint_type": "FOREIGN KEY"
+      },
+      "expect": "type filter returns only foreign keys",
+      "is_error": false,
+      "payload_head": "[{\"columns\": [\"owner_id\"], \"definition\": \"FOREIGN KEY (owner_id) REFERENCES _mcp_e2e.owners(id) ON DELETE CASCADE\", \"table_name\": \"items\", \"schema_name\": \"_mcp_e2e\", \"is_deferrable\": false, \"constraint_name\": \"items_owner_fkey\", \"constraint_type\": \"FOREIGN KEY\", \"initially_deferred\": false}, {\"columns\": [\"class_id\"], \"definition\": \"FOREIGN KEY (class_id) REFERENCES classes(id) ON DELETE CASCADE\", ",
+      "verdict": "PASS",
+      "note": "only FOREIGN KEY rows",
+      "duration_ms": 41
+    },
+    {
+      "id": "T44",
+      "group": "inspection",
+      "tool": "list_foreign_keys",
+      "args": {
+        "schema": "_mcp_e2e"
+      },
+      "expect": "FK with reference + CASCADE rule",
+      "is_error": false,
+      "payload_head": "[{\"table_name\": \"items\", \"column_name\": \"owner_id\", \"delete_rule\": \"CASCADE\", \"schema_name\": \"_mcp_e2e\", \"update_rule\": \"NO ACTION\", \"is_deferrable\": false, \"constraint_name\": \"items_owner_fkey\", \"referenced_table\": \"owners\", \"referenced_column\": \"id\", \"referenced_schema\": \"_mcp_e2e\", \"initially_deferred\": false}]",
+      "verdict": "PASS",
+      "note": "items_owner_fkey -> owners ON DELETE CASCADE",
+      "duration_ms": 60
+    },
+    {
+      "id": "T45",
+      "group": "inspection",
+      "tool": "list_rls_policies",
+      "args": {
+        "schema": "_mcp_e2e"
+      },
+      "expect": "secure_select policy visible",
+      "is_error": false,
+      "payload_head": "[{\"roles\": [], \"command\": \"SELECT\", \"table_name\": \"secure\", \"policy_name\": \"secure_select\", \"policy_type\": \"PERMISSIVE\", \"schema_name\": \"_mcp_e2e\", \"using_expression\": \"true\", \"with_check_expression\": null}]",
+      "verdict": "PASS",
+      "note": "secure_select SELECT policy",
+      "duration_ms": 44
+    },
+    {
+      "id": "T46",
+      "group": "inspection",
+      "tool": "list_rls_policies",
+      "args": {},
+      "expect": "unfiltered call includes public.check_ins policies",
+      "is_error": false,
+      "payload_head": "[{\"roles\": [], \"command\": \"SELECT\", \"table_name\": \"secure\", \"policy_name\": \"secure_select\", \"policy_type\": \"PERMISSIVE\", \"schema_name\": \"_mcp_e2e\", \"using_expression\": \"true\", \"with_check_expression\": null}, {\"roles\": [\"authenticated\"], \"command\": \"DELETE\", \"table_name\": \"check_ins\", \"policy_name\": \"check_ins_delete_own_class\", \"policy_type\": \"PERMISSIVE\", \"schema_name\": \"public\", \"using_expressio",
+      "verdict": "PASS",
+      "note": "check_ins policies present",
+      "duration_ms": 47
+    },
+    {
+      "id": "T47",
+      "group": "inspection",
+      "tool": "list_triggers",
+      "args": {
+        "schema": "_mcp_e2e"
+      },
+      "expect": "items_audit trigger with timing/level/events",
+      "is_error": false,
+      "payload_head": "[{\"events\": [\"INSERT\"], \"enabled\": \"ENABLED\", \"table_name\": \"items\", \"schema_name\": \"_mcp_e2e\", \"trigger_name\": \"items_audit\", \"function_name\": \"audit_fn\", \"trigger_level\": \"ROW\", \"trigger_timing\": \"BEFORE\", \"function_schema\": \"_mcp_e2e\"}]",
+      "verdict": "PASS",
+      "note": "items_audit BEFORE ROW INSERT",
+      "duration_ms": 51
+    },
+    {
+      "id": "T48",
+      "group": "inspection",
+      "tool": "list_database_functions",
+      "args": {
+        "schema": "_mcp_e2e"
+      },
+      "expect": "fixture functions audit_fn + note",
+      "is_error": false,
+      "payload_head": "[{\"language\": \"plpgsql\", \"arguments\": \"\", \"volatility\": \"VOLATILE\", \"description\": null, \"return_type\": \"trigger\", \"schema_name\": \"_mcp_e2e\", \"function_name\": \"audit_fn\", \"security_definer\": false}, {\"language\": \"sql\", \"arguments\": \"\", \"volatility\": \"VOLATILE\", \"description\": null, \"return_type\": \"text\", \"schema_name\": \"_mcp_e2e\", \"function_name\": \"note\", \"security_definer\": false}]",
+      "verdict": "PASS",
+      "note": "both fixture functions",
+      "duration_ms": 46
+    },
+    {
+      "id": "T49",
+      "group": "inspection",
+      "tool": "list_database_functions",
+      "args": {
+        "name_pattern": "note%"
+      },
+      "expect": "name pattern filter",
+      "is_error": false,
+      "payload_head": "[{\"language\": \"sql\", \"arguments\": \"\", \"volatility\": \"VOLATILE\", \"description\": null, \"return_type\": \"text\", \"schema_name\": \"_mcp_e2e\", \"function_name\": \"note\", \"security_definer\": false}]",
+      "verdict": "PASS",
+      "note": "only note* functions",
+      "duration_ms": 48
+    },
+    {
+      "id": "T50",
+      "group": "inspection",
+      "tool": "list_database_functions",
+      "args": {
+        "name_pattern": "bad-pattern!"
+      },
+      "expect": "pattern validation error",
+      "is_error": false,
+      "payload_head": "{\"error\": {\"code\": \"MCP_VALIDATION_ERROR\", \"message\": \"Invalid name pattern: bad-pattern!. Use only alphanumeric, underscore, dollar sign, and % wildcard.\", \"hint\": \"Inspect the error message and adjust the tool call.\"}}",
+      "verdict": "PASS",
+      "note": "error message contains: Invalid name pattern: bad-pattern!",
+      "duration_ms": 1
+    },
+    {
+      "id": "T51",
+      "group": "inspection",
+      "tool": "get_function_definition",
+      "args": {
+        "function_name": "note",
+        "schema": "_mcp_e2e"
+      },
+      "expect": "function source contains scratch-note",
+      "is_error": false,
+      "payload_head": "{\"language\": \"sql\", \"arguments\": \"\", \"definition\": \"CREATE OR REPLACE FUNCTION _mcp_e2e.note()\\n RETURNS text\\n LANGUAGE sql\\nAS $function$ SELECT 'scratch-note' $function$\\n\", \"volatility\": \"VOLATILE\", \"return_type\": \"text\", \"schema_name\": \"_mcp_e2e\", \"function_name\": \"note\", \"security_definer\": false}",
+      "verdict": "PASS",
+      "note": "source contains body",
+      "duration_ms": 42
+    },
+    {
+      "id": "T52",
+      "group": "inspection",
+      "tool": "get_function_definition",
+      "args": {
+        "function_name": "nope",
+        "schema": "_mcp_e2e"
+      },
+      "expect": "not-found error",
+      "is_error": false,
+      "payload_head": "{\"error\": {\"code\": \"MCP_NOT_FOUND\", \"message\": \"Function _mcp_e2e.nope not found.\", \"hint\": \"Inspect the error message and adjust the tool call.\"}}",
+      "verdict": "PASS",
+      "note": "error message contains: Function _mcp_e2e.nope not found.",
+      "duration_ms": 42
+    },
+    {
+      "id": "T53",
+      "group": "inspection",
+      "tool": "get_trigger_definition",
+      "args": {
+        "schema": "_mcp_e2e",
+        "table": "items",
+        "trigger_name": "items_audit"
+      },
+      "expect": "trigger definition + function source",
+      "is_error": false,
+      "payload_head": "{\"events\": [\"INSERT\"], \"enabled\": \"ENABLED\", \"definition\": \"CREATE TRIGGER items_audit BEFORE INSERT ON _mcp_e2e.items FOR EACH ROW EXECUTE FUNCTION _mcp_e2e.audit_fn()\", \"table_name\": \"items\", \"schema_name\": \"_mcp_e2e\", \"trigger_name\": \"items_audit\", \"function_name\": \"audit_fn\", \"trigger_level\": \"ROW\", \"trigger_timing\": \"BEFORE\", \"function_schema\": \"_mcp_e2e\", \"function_definition\": \"CREATE OR RE",
+      "verdict": "PASS",
+      "note": "definition returned",
+      "duration_ms": 45
+    },
+    {
+      "id": "T54",
+      "group": "inspection",
+      "tool": "get_trigger_definition",
+      "args": {
+        "schema": "_mcp_e2e",
+        "table": "items",
+        "trigger_name": "nope"
+      },
+      "expect": "not-found error",
+      "is_error": false,
+      "payload_head": "{\"error\": {\"code\": \"MCP_NOT_FOUND\", \"message\": \"Trigger \\\"nope\\\" not found on _mcp_e2e.items.\", \"hint\": \"Inspect the error message and adjust the tool call.\"}}",
+      "verdict": "PASS",
+      "note": "error message contains: Trigger \"nope\" not found on _mcp_e2e.items.",
+      "duration_ms": 42
+    },
+    {
+      "id": "T55",
+      "group": "inspection",
+      "tool": "get_rls_status",
+      "args": {
+        "schema": "_mcp_e2e"
+      },
+      "expect": "secure: RLS enabled+forced with policy; items: disabled",
+      "is_error": false,
+      "payload_head": "[{\"rls_forced\": false, \"table_name\": \"audit_log\", \"rls_enabled\": false, \"schema_name\": \"_mcp_e2e\", \"policy_count\": 0}, {\"rls_forced\": false, \"table_name\": \"items\", \"rls_enabled\": false, \"schema_name\": \"_mcp_e2e\", \"policy_count\": 0}, {\"rls_forced\": false, \"table_name\": \"owners\", \"rls_enabled\": false, \"schema_name\": \"_mcp_e2e\", \"policy_count\": 0}, {\"rls_forced\": true, \"table_name\": \"secure\", \"rls_en",
+      "verdict": "PASS",
+      "note": "secure enabled+forced, items disabled",
+      "duration_ms": 44
+    },
+    {
+      "id": "T56",
+      "group": "inspection",
+      "tool": "get_rls_status",
+      "args": {},
+      "expect": "unfiltered call covers multiple schemas",
+      "is_error": false,
+      "payload_head": "[{\"rls_forced\": false, \"table_name\": \"audit_log\", \"rls_enabled\": false, \"schema_name\": \"_mcp_e2e\", \"policy_count\": 0}, {\"rls_forced\": false, \"table_name\": \"items\", \"rls_enabled\": false, \"schema_name\": \"_mcp_e2e\", \"policy_count\": 0}, {\"rls_forced\": false, \"table_name\": \"owners\", \"rls_enabled\": false, \"schema_name\": \"_mcp_e2e\", \"policy_count\": 0}, {\"rls_forced\": true, \"table_name\": \"secure\", \"rls_en",
+      "verdict": "PASS",
+      "note": "multiple tables",
+      "duration_ms": 45
+    },
+    {
+      "id": "T57",
+      "group": "inspection",
+      "tool": "list_available_extensions",
+      "args": {},
+      "expect": "pg_cron available-uninstalled; pg_net installed",
+      "is_error": false,
+      "payload_head": "[{\"name\": \"address_standardizer\", \"comment\": \"Used to parse an address into constituent elements. Generally used to support geocoding address normalization step.\", \"is_installed\": false, \"default_version\": \"3.6.3\", \"installed_version\": null}, {\"name\": \"address_standardizer_data_us\", \"comment\": \"Address Standardizer US dataset example\", \"is_installed\": false, \"default_version\": \"3.6.3\", \"installed_",
+      "verdict": "PASS",
+      "note": "pg_cron uninstalled + pg_net installed",
+      "duration_ms": 69
+    },
+    {
+      "id": "T58",
+      "group": "inspection",
+      "tool": "list_available_extensions",
+      "args": {
+        "name_pattern": "pg_c%"
+      },
+      "expect": "raw SQL LIKE pattern filter (pg_c% -> pg_cron ...)",
+      "is_error": false,
+      "payload_head": "[{\"name\": \"pg_cron\", \"comment\": \"Job scheduler for PostgreSQL\", \"is_installed\": false, \"default_version\": \"1.6\", \"installed_version\": null}]",
+      "verdict": "PASS",
+      "note": "only pg_c* extensions",
+      "duration_ms": 52
+    },
+    {
+      "id": "T59",
+      "group": "inspection",
+      "tool": "list_available_extensions",
+      "args": {
+        "show_installed": false
+      },
+      "expect": "installed extensions excluded",
+      "is_error": false,
+      "payload_head": "[{\"name\": \"address_standardizer\", \"comment\": \"Used to parse an address into constituent elements. Generally used to support geocoding address normalization step.\", \"is_installed\": false, \"default_version\": \"3.6.3\", \"installed_version\": null}, {\"name\": \"address_standardizer_data_us\", \"comment\": \"Address Standardizer US dataset example\", \"is_installed\": false, \"default_version\": \"3.6.3\", \"installed_",
+      "verdict": "PASS",
+      "note": "no installed extensions",
+      "duration_ms": 61
+    },
+    {
+      "id": "T60",
+      "group": "inspection",
+      "tool": "get_cron_job_history",
+      "args": {},
+      "expect": "expected error: pg_cron not installed (upstream message)",
+      "is_error": false,
+      "payload_head": "{\"error\": {\"code\": \"MCP_EXTENSION_NOT_INSTALLED\", \"message\": \"pg_cron extension is not installed. Install it with: CREATE EXTENSION pg_cron;\", \"hint\": \"Inspect the error message and adjust the tool call.\"}}",
+      "verdict": "PASS",
+      "note": "error message contains: pg_cron extension is not installed. Install it with: CREATE EXTENSION pg_cron;",
+      "duration_ms": 40
+    },
+    {
+      "id": "T62",
+      "group": "inspection",
+      "tool": "get_index_stats",
+      "args": {
+        "schema": "_mcp_e2e",
+        "index_name": "_mcp_e2e_items_tag_idx"
+      },
+      "expect": "stats for the fixture index",
+      "is_error": false,
+      "payload_head": "{\"is_valid\": true, \"is_unique\": false, \"index_name\": \"_mcp_e2e_items_tag_idx\", \"index_size\": \"16 kB\", \"index_type\": \"btree\", \"is_primary\": false, \"table_name\": \"items\", \"table_size\": \"8192 bytes\", \"schema_name\": \"_mcp_e2e\", \"tuples_read\": 0, \"usage_ratio\": \"0.00%\", \"tuples_fetched\": 0, \"number_of_scans\": 0, \"index_size_bytes\": 16384, \"table_size_bytes\": 8192}",
+      "verdict": "PASS",
+      "note": "fixture index stats",
+      "duration_ms": 51
+    },
+    {
+      "id": "T63",
+      "group": "inspection",
+      "tool": "get_index_stats",
+      "args": {
+        "schema": "public",
+        "index_name": "students_pkey"
+      },
+      "expect": "stats for a production index",
+      "is_error": false,
+      "payload_head": "{\"is_valid\": true, \"is_unique\": true, \"index_name\": \"students_pkey\", \"index_size\": \"16 kB\", \"index_type\": \"btree\", \"is_primary\": true, \"table_name\": \"students\", \"table_size\": \"8192 bytes\", \"schema_name\": \"public\", \"tuples_read\": 77, \"usage_ratio\": \"50.69%\", \"tuples_fetched\": 76, \"number_of_scans\": 34, \"index_size_bytes\": 16384, \"table_size_bytes\": 8192}",
+      "verdict": "PASS",
+      "note": "students_pkey stats",
+      "duration_ms": 65
+    },
+    {
+      "id": "T64",
+      "group": "inspection",
+      "tool": "get_vector_index_stats",
+      "args": {},
+      "expect": "[] (no vector indexes)",
+      "is_error": false,
+      "payload_head": "[]",
+      "verdict": "PASS",
+      "note": "empty list",
+      "duration_ms": 92
+    },
+    {
+      "id": "T65",
+      "group": "inspection",
+      "tool": "explain_query",
+      "args": {
+        "sql": "SELECT * FROM _mcp_e2e.items WHERE tag = 'a'"
+      },
+      "expect": "query plan returned",
+      "is_error": false,
+      "payload_head": "{\"query\": \"SELECT * FROM _mcp_e2e.items WHERE tag = 'a'\", \"plan\": [{\"Plan\": {\"Alias\": \"items\", \"Plans\": [{\"Disabled\": false, \"Node Type\": \"Bitmap Index Scan\", \"Plan Rows\": 4, \"Index Cond\": \"(tag = 'a'::text)\", \"Index Name\": \"_mcp_e2e_items_tag_idx\", \"Plan Width\": 0, \"Total Cost\": 1.28, \"Startup Cost\": 0.0, \"Async Capable\": false, \"Parallel Aware\": false, \"Parent Relationship\": \"Outer\"}], \"Disabled",
+      "verdict": "PASS",
+      "note": "plan payload",
+      "duration_ms": 42
+    },
+    {
+      "id": "T66",
+      "group": "inspection",
+      "tool": "explain_query",
+      "args": {
+        "sql": "SELECT count(*) FROM _mcp_e2e.items",
+        "analyze": true,
+        "buffers": true
+      },
+      "expect": "EXPLAIN ANALYZE BUFFERS executes and returns a plan",
+      "is_error": false,
+      "payload_head": "{\"query\": \"SELECT count(*) FROM _mcp_e2e.items\", \"plan\": [{\"Plan\": {\"Plans\": [{\"Alias\": \"items\", \"Disabled\": false, \"Node Type\": \"Seq Scan\", \"Plan Rows\": 810, \"Plan Width\": 0, \"Total Cost\": 18.1, \"Actual Rows\": 3.0, \"Actual Loops\": 1, \"Startup Cost\": 0.0, \"Async Capable\": false, \"Relation Name\": \"items\", \"Parallel Aware\": false, \"Local Hit Blocks\": 0, \"Temp Read Blocks\": 0, \"Actual Total Time\": 0.",
+      "verdict": "PASS",
+      "note": "analyzed plan payload",
+      "duration_ms": 55
+    },
+    {
+      "id": "D01",
+      "group": "cleanup",
+      "tool": "execute_sql",
+      "args": {
+        "sql": "DROP SCHEMA _mcp_e2e CASCADE"
+      },
+      "expect": "fixture schema dropped",
+      "is_error": false,
+      "payload_head": "[{\"success\": true, \"rows_affected\": 0}]",
+      "verdict": "PASS",
+      "note": "success envelope",
+      "duration_ms": 51
+    },
+    {
+      "id": "D02",
+      "group": "cleanup",
+      "tool": "execute_sql",
+      "args": {
+        "sql": "SELECT to_regclass('_mcp_e2e.items') AS gone, to_regclass('public._mcp_py_test') AS gone2"
+      },
+      "expect": "all scratch objects removed (null)",
+      "is_error": false,
+      "payload_head": "[{\"gone\": null, \"gone2\": null}]",
+      "verdict": "PASS",
+      "note": "both regclass checks null",
+      "duration_ms": 48
+    },
+    {
+      "id": "D03",
+      "group": "cleanup",
+      "tool": "list_tables",
+      "args": {},
+      "expect": "table list identical to the pre-test baseline",
+      "is_error": false,
+      "payload_head": "[{\"name\": \"_http_response\", \"schema\": \"net\", \"comment\": null}, {\"name\": \"http_request_queue\", \"schema\": \"net\", \"comment\": null}, {\"name\": \"check_ins\", \"schema\": \"public\", \"comment\": null}, {\"name\": \"classes\", \"schema\": \"public\", \"comment\": null}, {\"name\": \"migrations\", \"schema\": \"public\", \"comment\": null}, {\"name\": \"students\", \"schema\": \"public\", \"comment\": null}, {\"name\": \"secrets\", \"schema\": \"va",
+      "verdict": "PASS",
+      "note": "identical to baseline",
+      "duration_ms": 46
+    },
+    {
+      "id": "D04",
+      "group": "cleanup",
+      "tool": "execute_sql",
+      "args": {
+        "sql": "SELECT count(*) AS n FROM auth.users WHERE email LIKE 'e2e-c-%'"
+      },
+      "expect": "no leftover scratch auth users",
+      "is_error": false,
+      "payload_head": "[{\"n\": 0}]",
+      "verdict": "PASS",
+      "note": "n = 0",
+      "duration_ms": 53
+    }
+  ]
+}

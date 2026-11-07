@@ -1,34 +1,34 @@
-# Contributing to rds-supabase-showcase-demo
+# 为 huaweicloud-mcp 做贡献
 
+> **语言切换：** [English](./CONTRIBUTING_en.md) | 中文
 
+首先，感谢您考虑为 huaweicloud-mcp 做出贡献！🎉
 
-## 开发环境搭建
+## 行为准则
 
-见 README。
+本项目及所有参与者受[行为准则](CODE_OF_CONDUCT.md)约束。参与即表示您认同并遵守该准则。
 
+## 如何贡献？
 
+完整开发规范已按功能特性拆分到 [`docs/development/`](docs/development/README.md) 目录，并补充手把手教程与样例。本文仅保留迁移说明与对外入口。
 
-## 提交规范
+**开发者文档主入口**：[`docs/development/README.md`](docs/development/README.md)
 
-使用约定式提交：`feat:`, `fix:`, `docs:`, `style:`, `refactor:`, `test:`, `chore:`
+各主题速查：
 
+| 原 spec 章节 | 迁移至 |
+|---|---|
+| §1 总体架构 / §2 仓库布局 / §4 三层架构 | [`docs/development/01-architecture.md`](docs/development/01-architecture.md) |
+| §3 公共核心包 / §9 认证配置 / §7 护栏 / §8 输出错误 | [`docs/development/02-core.md`](docs/development/02-core.md) |
+| §6 工具设计 / §7.2 风险分级 / §7.9 强制机制 | [`docs/development/03-tools.md`](docs/development/03-tools.md) |
+| §5.5/5.6 service/client 模板 | [`docs/development/04-service-client.md`](docs/development/04-service-client.md) |
+| §7 安全护栏 | [`docs/development/05-guardrails.md`](docs/development/05-guardrails.md) |
+| §8 输出与错误处理 | [`docs/development/06-output-errors.md`](docs/development/06-output-errors.md) |
+| §11.3/11.4 测试与 CI 自检 | [`docs/development/07-testing.md`](docs/development/07-testing.md) |
+| §5/§13 代码模板与新服务接入流程 | [`docs/development/08-new-service-walkthrough.md`](docs/development/08-new-service-walkthrough.md) |
+| §11 工程化 / §14 发布 / §12 文档 / §10 传输 | [`docs/development/09-engineering-release.md`](docs/development/09-engineering-release.md) |
+| 总览与导读 | [`docs/development/00-overview.md`](docs/development/00-overview.md) |
 
+## 许可证
 
-## PR 流程
-
-1. Fork 仓库
-
-2. 创建分支 `feat/xxx`
-
-3. 提交代码
-
-4. 发起 Pull Request
-
-5. 至少 2 人 Review + CI 通过后合并
-
-
-
-## Issue 规范
-
-使用 Bug Report / Feature Request 模板
-
+通过贡献，您同意您的贡献将按照 MIT 许可。

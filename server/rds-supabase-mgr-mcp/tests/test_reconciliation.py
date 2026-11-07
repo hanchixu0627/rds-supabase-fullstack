@@ -92,9 +92,13 @@ class ReconcileTests(unittest.IsolatedAsyncioTestCase):
 
     def test_legacy_database_keeps_records(self):
         import sqlite3
-        with sqlite3.connect(self.store.path) as db:
+        from contextlib import closing
+        with closing(sqlite3.connect(self.store.path)) as db, db:
             db.execute('CREATE TABLE plans (id TEXT PRIMARY KEY, digest TEXT, expires REAL, state TEXT, job TEXT)')
             db.execute("INSERT INTO plans VALUES ('legacy','digest',0,'unknown',NULL)")
+        # Detect fixture handle leaks on every OS, not only Windows cleanup.
+        with self.assertRaises(sqlite3.ProgrammingError):
+            db.execute('SELECT 1')
         result=self.store.inspect('legacy')
         self.assertEqual(result['state'],'unknown')
         self.assertFalse(result['resource_verified'])

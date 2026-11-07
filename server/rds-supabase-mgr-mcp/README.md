@@ -1,6 +1,6 @@
 > Directory integration and source installation: [MIGRATION.md](docs/MIGRATION.md). This is the cloud control-plane MCP; the existing sibling server remains separate.
 
-# Supabase management MCP — 0.3.8a1
+# Supabase management MCP — 0.3.8a2
 
 Local stdio MCP with a real HTTP transport, not a mock-success adapter. No cloud validation has been performed.
 
@@ -79,3 +79,5 @@ See [implemented changes, conflicting evidence and acceptance](docs/SUPPLEMENT_R
 本版增加12个工具（总计29个）：应用改密、Auth提供方/模板/URL、OBS配置、VPC组查询/创建/规则增删、创建候选发现、Single创建提交及ApiKey本地交付。敏感请求通过操作方受保护的本地别名提供，详见[配置说明](docs/LOCAL_REQUESTS.md)。
 
 请从[子场景验收矩阵](docs/SIX_SCENARIO_MATRIX.md)核对已实现、未实现及待真实验证项。包周期创建、PG级联、证书原生发现/购买、宿主级秘密保险库仍未完成；此版不能称六场景全量生产验收通过。Windows联调使用[执行Prompt](docs/NEXT_WORKSTATION_PROMPT.md)，码道仍在最后。
+
+0.3.8a2修复Windows旧账本测试夹具连接未关闭，并增加跨平台关闭断言；业务代码/29工具不变。详见docs/RELEASE_0.3.8a2.md。

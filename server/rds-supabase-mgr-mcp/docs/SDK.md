@@ -32,3 +32,6 @@ SDK Core 在完整接收后执行 1MiB 响应检查，不等同于 REST 适配�
 ## 验收与后续
 本地 HTTP fixture 使用真实 SDK 签名/序列化，检查空 body、SSL null、分页、错误、防重放及凭据切换；不声称已做真实云、Windows实机或码道验收。
 待完成：正式生成式SDK及模型证据、服务入口/IAM策略、任务终态和状态回查、剩余六场景契约与秘密通道、依赖安全冲突、Windows实机及码道验收。SDK依赖版本升级后必须重跑适配器测试，包括内部日志钩子的兼容性。
+
+## CA配置核实（0.3.8a2）
+当前SDK Core3.1.220使用Requests Session；本程序未显式设置HttpConfig.ssl_ca_cert。SDK模式可通过进程级REQUESTS_CA_BUNDLE指向可信CA PEM，不能只用SSL_CERT_FILE就宣称SDK已配置CA。REST标准库传输与SDK的CA来源不同。不要关闭TLS或推测历史证书仍存在。CA/代理环境配置必须传入实际MCP子进程；模型服务代理和云API目标的直连规则分别核实。

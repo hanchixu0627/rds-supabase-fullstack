@@ -1,10 +1,10 @@
 ---
 name: rds-supabase-mcp
-description: '华为云 RDS Supabase 管理技能：管理部署在华为云 RDS PostgreSQL 上的自建 Supabase 平台（Kong 网关、PostgREST、GoTrue、Storage、Realtime）。本 MCP 服务器基于 HenkDz/selfhosted-supabase-mcp 改进。Use when：执行 SQL 或部署 init.sql 迁移脚本（后端定义）、查询数据库结构与数据、管理登录用户、配置存储桶、检查行级安全（RLS）与安全建议、排查连接与执行计划。平台开发与客户端集成见 rds-supabase 技能；SQL 与 schema 质量规则见 rds-supabase-postgres-best-practices 技能。'
+description: '华为云 RDS Supabase 管理技能：管理部署在华为云 RDS PostgreSQL 上的自建 Supabase 平台（Kong 网关、PostgREST、GoTrue、Storage、Realtime）。本 MCP 服务器基于 HenkDz/selfhosted-supabase-mcp 改进。Use when：安装或快速接入本 MCP 服务器（用户提供 Supabase URL 与 API Key，见 references/install.md）；执行 SQL 或部署 init.sql 迁移脚本（后端定义）、查询数据库结构与数据、管理登录用户、配置存储桶、检查行级安全（RLS）与安全建议、排查连接与执行计划。平台开发与客户端集成见 rds-supabase 技能；SQL 与 schema 质量规则见 rds-supabase-postgres-best-practices 技能。'
 license: MIT
 metadata:
   tags: [huawei-cloud, rds, supabase, postgresql, mcp, database, baas]
-  version: "2.4.1"
+  version: "2.5.0"
 ---
 
 # 华为云 RDS Supabase 管理
@@ -46,7 +46,7 @@ metadata:
 | 任务 | 归属 |
 |---|---|
 | 实例开通、续费、规格变更、备份策略 | 云平台控制台（本 MCP 不涉及） |
-| MCP 服务器安装与配置 | references/mcp-installation-guide.md |
+| MCP 服务器安装与配置 | references/install.md（一句话快速安装）；references/mcp-installation-guide.md（完整指南） |
 | `public.migrations` 表 | 平台内部对象：不读、不写、不依赖 |
 
 ## 前置条件
@@ -176,6 +176,7 @@ NOTIFY pgrst, 'reload schema';            -- PostgREST 立即感知结构变更�
 
 ## 参考文档
 
+- references/install.md（一句话快速安装：AI Agent 收集三项凭据完成接入）
 - references/init-sql-guide.md（init.sql 编写规范）
 - references/verification-method.md（验证方法）
 - references/related-tools.md（工具分组、访问通道与错误格式）

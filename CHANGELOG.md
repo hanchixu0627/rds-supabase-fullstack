@@ -7,6 +7,11 @@ semantic versioning.
 
 ### Added
 
+- Skills v2.5.0 (`rds-supabase-mcp`): added `references/install.md`, a one-shot
+  AI-agent installation runbook — collect SUPABASE_URL, SUPABASE_ANON_KEY and
+  SUPABASE_SERVICE_ROLE_KEY from the user, render the `mcpServers` config from
+  the stdio / streamable-http templates, and verify; the skill description now
+  also triggers on installation requests.
 - Integrated the rds-supabase capability into `huaweicloud/rds-supabase-fullstack`:
   the MCP server now lives at `server/mcp_server_rds_supabase` with its shared
   core vendored at `vendor/huaweicloud_mcp_core` (path dependency, standalone

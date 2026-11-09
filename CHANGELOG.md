@@ -28,6 +28,10 @@ semantic versioning.
 
 ### Changed
 
+- Repositioned the `rds-supabase-mgr` skill as "RDS Supabase 全托管生命周期管理"
+  (fully-managed lifecycle management): the SKILL.md title and description now
+  state the creation / configuration / secure-access / deletion lifecycle
+  scope explicitly; operational content is unchanged.
 - Renamed the control-plane skill `huaweicloud-supabase` to `rds-supabase-mgr`
   (directory and SKILL.md name) to align with the renamed mgr server
   `mcp_server_rds_supabase_mgr`. Skill content is unchanged; README, the mgr

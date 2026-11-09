@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "huaweicloud-supabase": {
+      "command": "REPLACE_WITH_ABSOLUTE_VENV_PYTHON",
+      "args": ["-m", "mcp_server_supabase.main"],
+      "env": {
+        "HUAWEICLOUD_MCP_READ_ONLY": "true",
+        "SUPABASE_ENABLE_WRITES": "false"
+      }
+    }
+  }
+}

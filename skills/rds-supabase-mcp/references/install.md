@@ -1,6 +1,6 @@
-# 一句话快速安装（AI Agent 执行路径）
+# 一句话动态安装（AI Agent 执行路径）
 
-面向 AI Agent 的最短安装流程：向用户收集三项连接信息，写入客户端 MCP 配置，验证即完成。当用户表达"安装 rds-supabase MCP"并提供凭据时，按本文一次执行到位。完整安装说明（Docker 部署、环境变量全表、护栏规则、execute_sql 函数部署）见 mcp-installation-guide.md。
+面向 AI Agent 的最短安装流程：收集三项连接信息，写入客户端 MCP 配置，验证即完成。本 MCP 服务器在 Web 全栈开发流程中随实例动态接入：RDS Supabase 实例完成创建或选定后，配置信息（网关 URL 与 API Key）方可获得，随即按本文一次执行到位。完整安装说明（Docker 部署、环境变量全表、护栏规则、execute_sql 函数部署）见 mcp-installation-guide.md。
 
 ## 需向用户收集的三项信息
 
@@ -12,7 +12,7 @@
 
 要点：
 
-- 三项信息由用户提供，逐字核对，不做推断
+- 三项信息由 Web 全栈开发流程注入或由用户提供，逐字核对，不做推断
 - SUPABASE_URL 是网关地址，不是数据库直连地址
 - service_role key 绕过 RLS：仅安装到可信环境；首次接入可在 env 中叠加 `"HUAWEICLOUD_MCP_READ_ONLY": "true"` 先行只读验证
 - 密钥只写入本地客户端配置，不得提交到仓库或出现在日志中

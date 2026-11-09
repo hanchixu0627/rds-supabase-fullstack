@@ -1,17 +1,19 @@
 ---
 name: rds-supabase-mcp
-description: '华为云 RDS Supabase 管理技能：管理部署在华为云 RDS PostgreSQL 上的自建 Supabase 平台（Kong 网关、PostgREST、GoTrue、Storage、Realtime）。本 MCP 服务器基于 HenkDz/selfhosted-supabase-mcp 改进。Use when：安装或快速接入本 MCP 服务器（用户提供 Supabase URL 与 API Key，见 references/install.md）；执行 SQL 或部署 init.sql 迁移脚本（后端定义）、查询数据库结构与数据、管理登录用户、配置存储桶、检查行级安全（RLS）与安全建议、排查连接与执行计划。平台开发与客户端集成见 rds-supabase 技能；SQL 与 schema 质量规则见 rds-supabase-postgres-best-practices 技能。'
+description: '华为云 RDS Supabase 管理技能：服务 Web 全栈开发流程，管理部署在华为云 RDS PostgreSQL 上的自建 Supabase 平台（Kong 网关、PostgREST、GoTrue、Storage、Realtime）。Web 应用开发中，后端代码以 init.sql 迁移脚本（DDL、GRANT 等初始化 SQL）形式存在，经本技能部署为数据库层定义，前端经 REST API 直接消费。Use when：RDS Supabase 实例创建完成或选定后，动态安装本 MCP 服务器（凭网关 URL 与 API Key，见 references/install.md）；开发中执行后端代码 init.sql 迁移脚本（建表、授权、RLS、函数）；查询数据库结构与数据；管理登录用户；配置存储桶；检查行级安全（RLS）与安全建议；排查连接与执行计划。本 MCP 服务器基于 HenkDz/selfhosted-supabase-mcp 改进。平台客户端集成见 rds-supabase 技能；SQL 与 schema 质量规则见 rds-supabase-postgres-best-practices 技能。'
 license: MIT
 metadata:
   tags: [huawei-cloud, rds, supabase, postgresql, mcp, database, baas]
-  version: "2.5.0"
+  version: "2.6.0"
 ---
 
 # 华为云 RDS Supabase 管理
 
 ## 概述
 
-华为云 RDS Supabase 是运行在华为云 RDS PostgreSQL 之上的自建 Supabase 平台。Supabase 提供后端即服务（BaaS）能力：Kong 网关统一入口，PostgREST 将数据库表发布为 REST API，GoTrue 负责用户认证，Storage 与 Realtime 开箱即用，应用端无需自建后端服务。在此类平台上，后端逻辑集中体现为数据库层的定义与配置（表结构、授权、行级安全策略、函数），通常以迁移脚本（init.sql）形式组织，经 `execute_sql` 执行部署。
+华为云 RDS Supabase 是运行在华为云 RDS PostgreSQL 之上的自建 Supabase 平台。Supabase 提供后端即服务（BaaS）能力：Kong 网关统一入口，PostgREST 将数据库表发布为 REST API，GoTrue 负责用户认证，Storage 与 Realtime 开箱即用，应用端无需自建后端服务。
+
+在 Web 全栈开发流程中，本技能承担后端环节，按两个阶段展开。**实例接入**：RDS Supabase 实例由流程动态创建或选定，实例就绪后配置信息（网关 URL 与 API Key）方可获得，此时按 references/install.md 一句话完成 MCP 服务器的动态安装。**后端开发**：Web 应用的后端代码以 init.sql 迁移脚本（DDL、GRANT 等初始化 SQL）形式组织，经 `execute_sql` 部署为数据库层的定义与配置（表结构、授权、行级安全策略、函数），前端经 REST API 直接消费。
 
 自建 Supabase 不提供云平台控制台，日常管理缺少工具支持。本 MCP 服务器（`mcp-server-huaweicloud-rds-supabase`）基于 HenkDz/selfhosted-supabase-mcp 改进，将数据库结构查询、SQL 执行、用户管理、存储配置、安全检查等管理能力封装为 MCP 工具，供 AI 助手调用。相对原版本的主要整改：
 
@@ -21,42 +23,47 @@ metadata:
 - 引入安全管控：工具按读/写分级；支持只读模式、操作拦截与二次确认规则、调用审计日志、敏感信息脱敏
 - 移除不适配当前部署形态的工具（迁移记录、Edge Functions 等）
 
-调用链路：AI 助手 → MCP 工具 → service 层 → client（PostgREST RPC / GoTrue 管理 API）。
+完整链路：Web 全栈开发流程（实例创建 / 选定）→ 动态安装（references/install.md）→ AI 助手 → MCP 工具 → service 层 → client（PostgREST RPC / GoTrue 管理 API）。
 
 典型用例：
 
-1. 了解现状：`list_tables` → `list_table_columns` → `get_rls_status`
-2. 部署后端定义：AI 生成 init.sql（建表、授权、RLS 策略、函数）→ `execute_sql` 执行 → 查询确认
-3. 安全检查：`get_advisors` + `get_rls_status` 核查对外表的权限与 RLS 覆盖
-4. 数据排查：`execute_sql`（`read_only=true`）逐层查询
-5. 用户管理：`list/get/create/update/delete_auth_user`
+1. 实例接入：实例创建或选定后，凭网关 URL 与 API Key 按 references/install.md 动态安装 → `get_project_url` 验证
+2. 了解现状：`list_tables` → `list_table_columns` → `get_rls_status`
+3. 部署后端定义：AI 生成 init.sql（建表、授权、RLS 策略、函数）→ `execute_sql` 执行 → 查询确认
+4. 安全检查：`get_advisors` + `get_rls_status` 核查对外表的权限与 RLS 覆盖
+5. 数据排查：`execute_sql`（`read_only=true`）逐层查询
+6. 用户管理：`list/get/create/update/delete_auth_user`
 
 ## 适用范围
 
 **触发条件**（满足任一即启用本技能）：
 
-1. 查询或修改 RDS Supabase 实例的数据库结构与数据
-2. 执行 SQL 或部署迁移脚本（init.sql）
-3. 管理平台登录用户
-4. 检查行级安全（RLS）、处理安全或性能建议
-5. 排查平台运行问题（连接、执行计划、扩展）
+1. Web 全栈开发流程中，RDS Supabase 实例创建完成或选定，需要动态安装本 MCP 服务器（references/install.md）
+2. Web 应用开发中执行后端代码：init.sql 迁移脚本（DDL、GRANT 等初始化 SQL）的编写与部署
+3. 查询或修改 RDS Supabase 实例的数据库结构与数据
+4. 管理平台登录用户
+5. 检查行级安全（RLS）、处理安全或性能建议
+6. 排查平台运行问题（连接、执行计划、扩展）
 
 **边界**：
 
 | 任务 | 归属 |
 |---|---|
 | 实例开通、续费、规格变更、备份策略 | 云平台控制台（本 MCP 不涉及） |
-| MCP 服务器安装与配置 | references/install.md（一句话快速安装）；references/mcp-installation-guide.md（完整指南） |
+| MCP 服务器动态安装与配置（实例创建/选定后） | references/install.md（一句话动态安装）；references/mcp-installation-guide.md（完整指南） |
 | `public.migrations` 表 | 平台内部对象：不读、不写、不依赖 |
 
 ## 前置条件
 
-1. 已开通 RDS Supabase 实例，并配置 `SUPABASE_URL`、`SUPABASE_ANON_KEY`
-2. `SUPABASE_SERVICE_ROLE_KEY`：SQL 执行与用户管理所必需
-3. 数据库已部署 `sql/mcp-execute-sql.sql`：创建受限的 `execute_sql` 函数（仅 service_role 可调用，`read_only` 语句白名单）
-4. 仅需只读访问时，建议设置 `HUAWEICLOUD_MCP_READ_ONLY=true`
+1. RDS Supabase 实例已创建完成或选定，三项配置信息已从开发流程获得：`SUPABASE_URL`（网关地址）、`SUPABASE_ANON_KEY`、`SUPABASE_SERVICE_ROLE_KEY`（SQL 执行与用户管理所必需）；据此按 references/install.md 动态安装本 MCP 服务器
+2. 数据库已部署 `sql/mcp-execute-sql.sql`：创建受限的 `execute_sql` 函数（仅 service_role 可调用，`read_only` 语句白名单）
+3. 仅需只读访问时，建议设置 `HUAWEICLOUD_MCP_READ_ONLY=true`
 
 ## 工作流
+
+### 实例接入（动态安装）
+
+Web 全栈开发流程中实例创建或选定后执行一次：从流程获得 `SUPABASE_URL`、`SUPABASE_ANON_KEY`、`SUPABASE_SERVICE_ROLE_KEY` → 按 references/install.md 写入客户端 MCP 配置并重载 → `get_project_url` 返回值与网关地址一致、`list_tables` 正常应答，即接入完成，进入开发工作流。
 
 ### 通用流程
 
@@ -176,7 +183,7 @@ NOTIFY pgrst, 'reload schema';            -- PostgREST 立即感知结构变更�
 
 ## 参考文档
 
-- references/install.md（一句话快速安装：AI Agent 收集三项凭据完成接入）
+- references/install.md（实例创建/选定后的动态安装：凭三项配置信息一句话完成接入）
 - references/init-sql-guide.md（init.sql 编写规范）
 - references/verification-method.md（验证方法）
 - references/related-tools.md（工具分组、访问通道与错误格式）

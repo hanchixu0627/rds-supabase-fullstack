@@ -22,6 +22,14 @@ semantic versioning.
 
 ### Changed
 
+- Skills v2.6.0 (`rds-supabase-mcp`): SKILL.md repositioned for the Web
+  full-stack development pipeline. The description and overview now lead with
+  the two-stage flow — dynamic installation once the RDS Supabase instance is
+  created or selected (install.md), then backend development where backend
+  code ships as init.sql migration scripts (DDL, GRANT and other
+  initialization SQL); added an "instance onboarding" workflow section ahead
+  of the general workflow and wired install.md into the prerequisites,
+  triggers, boundary table and reference routing.
 - Skills v0.2.0: professional skill-authoring pass (superpowers
   writing-skills + Anthropic best practices). `rds-supabase`: removed
   workflow summary from the description (SDO shortcut trap), added

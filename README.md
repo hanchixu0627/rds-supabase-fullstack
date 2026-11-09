@@ -68,4 +68,4 @@ MIT
 
 ## Supabase 管控面 MCP（开发版）
 
-新增 [server/rds-supabase-mgr-mcp](server/rds-supabase-mgr-mcp) 与独立 [huaweicloud-supabase Skill](skills/huaweicloud-supabase)。提供云管控查询、部分写操作及执行记录保护；与现有实例内/数据面 MCP 分开交付，不替换现有工具。参见[迁移说明](server/rds-supabase-mgr-mcp/docs/MIGRATION.md)了解目录、共享依赖及未完成验收边界。
+新增 [server/mcp_server_rds_supabase_mgr](server/mcp_server_rds_supabase_mgr)（管理面：RDS Supabase 实例生命周期管理——应用创建、配置、安全访问、删除）与独立 [huaweicloud-supabase Skill](skills/huaweicloud-supabase)。提供云管控查询、部分写操作及执行记录保护；与现有实例内/数据面 MCP（[server/mcp_server_rds_supabase](server/mcp_server_rds_supabase)，运行面）分开交付，不替换现有工具。参见[迁移说明](server/mcp_server_rds_supabase_mgr/docs/MIGRATION.md)了解目录、共享依赖及未完成验收边界。

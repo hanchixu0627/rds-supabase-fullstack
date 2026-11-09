@@ -28,6 +28,13 @@ semantic versioning.
 
 ### Changed
 
+- Renamed the control-plane server directory `server/rds-supabase-mgr-mcp` to
+  `server/mcp_server_rds_supabase_mgr` to match the `mcp_server_*` convention
+  (management plane: RDS Supabase instance lifecycle — creation, configuration,
+  secure access, deletion). Directory-only rename: the Python
+  distribution/module/CLI (`mcp_server_supabase`) and its path dependency on
+  `../../libs/huaweicloud_mcp_core` are unchanged; README and MIGRATION.md
+  references updated.
 - Skills v2.6.0 (`rds-supabase-mcp`): SKILL.md repositioned for the Web
   full-stack development pipeline. The description and overview now lead with
   the two-stage flow — dynamic installation once the RDS Supabase instance is

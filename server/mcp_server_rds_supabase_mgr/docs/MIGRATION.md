@@ -2,7 +2,7 @@
 
 This directory imports the 0.3.7a1 control-plane MCP from personal development branches. It is separate from server/mcp_server_rds_supabase, which exposes instance/data-facing tools. No existing server or skill is replaced.
 
-- Repository directory: server/rds-supabase-mgr-mcp
+- Repository directory: server/mcp_server_rds_supabase_mgr (renamed from server/rds-supabase-mgr-mcp to match the mcp_server_* convention; the rename is directory-only)
 - Python distribution/module/CLI retained: mcp_server_supabase
 - Scenario Skill: skills/huaweicloud-supabase
 - Shared dependency: ../../libs/huaweicloud_mcp_core (existing root 1.0.0 source matches the validated source); do not substitute the other server's vendored 1.2 runtime without compatibility tests.

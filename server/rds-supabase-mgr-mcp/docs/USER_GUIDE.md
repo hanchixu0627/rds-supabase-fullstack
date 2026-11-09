@@ -10,7 +10,7 @@
 
 ### 执行这一条命令
 
-取得 `supabase-local-client-0.1.0-dev-windows-x64.zip` 并解压。在解压目录打开 PowerShell，运行：
+从[本地启动包下载页](https://github.com/hanchixu0627/rds-supabase-fullstack/releases/tag/supabase-local-client-v0.1.0-dev)取得 `supabase-local-client-0.1.0-dev-windows-x64.zip` 及同名 SHA256 校验文件，核对后解压。在解压目录打开 PowerShell，运行：
 
 ```powershell
 powershell -NoProfile -File .\start-supabase.ps1

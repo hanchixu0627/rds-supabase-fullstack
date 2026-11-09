@@ -1,3 +1,5 @@
+> 首次使用请阅读[从下载到自然语言操作的用户指南](docs/USER_GUIDE.md)，包含Windows单行安装、Claude接入和测试背景。
+
 > Directory integration and source installation: [MIGRATION.md](docs/MIGRATION.md). This is the cloud control-plane MCP; the existing sibling server remains separate.
 
 # Supabase management MCP — 0.3.8a2

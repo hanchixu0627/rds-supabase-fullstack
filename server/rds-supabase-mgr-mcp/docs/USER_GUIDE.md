@@ -4,6 +4,57 @@
 
 本工具让你在Claude Code等支持本地MCP的助手中，用自然语言查询和管理华为云Supabase。MCP负责调用云接口，专项Skill负责理解需求、补充信息、展示影响及指导确认。先完成本地接入，再验证真实云访问；当前开发版尚未完成生产发布验收。
 
+## 快速开始：一条命令接入 Claude（目标入口，尚未发布）
+
+目标体验：**首次执行一条命令，安装 MCP 和专项 Skill；之后打开 Claude，用自然语言操作即可。** 本地 MCP 使用 stdio，由 Claude 按需启动和关闭，不需要用户另开终端长期运行服务。
+
+> 当前状态：npm 正式包名尚未确定，自动准备 Python 运行时的启动器尚未实现。现有本地安装器原型仍要求 Windows x64 和预装 Python3.12，不能当作下述目标入口。以下命令为约定格式，不是已经可用的安装命令。可立即使用的方式见第3节离线 ZIP。
+
+### 首次安装（发布后）
+
+预先安装 Node.js/npm 和 Claude Code，并确保 Claude 可正常对话。进入希望使用 Supabase 的项目目录，执行：
+
+```text
+npx @<个人npm用户名>/huaweicloud-supabase@<已发布版本> install --client claude
+```
+
+正式初始化命令应自动完成：
+
+1. 检查系统和架构，准备固定版本、独立的 Python 运行时及依赖；不修改系统 Python。
+2. 安装 MCP 启动入口和完整专项 Skill，默认开启只读、关闭写入。
+3. 写入项目级 Claude MCP 配置，显示配置文件和 Skill 的实际位置；已有配置或账本冲突时停止，不覆盖或另建账本绕过历史计划。
+4. 运行离线自检，显示实际安装版本和下一步操作；不调用业务云 API。
+
+系统支持范围以正式发行说明为准；首轮验收针对 Windows x64，macOS/Linux/ARM64 未验收前不承诺支持。自动下载所需文件必须校验完整性；网络受限时使用离线包，不关闭 TLS 或绕过公司执行策略。
+
+### 后续使用（发布后）
+
+从安装时的同一项目目录启动 Claude：
+
+```text
+claude
+```
+
+按客户端提示确认项目 MCP 配置，输入 `/mcp` 检查连接，再输入 `/huaweicloud-supabase` 加载专项 Skill。可以先说：“查询当前 MCP 能力，本次不访问云资源。”
+
+日常启动入口与初始化分开：Claude 调用的启动器只负责使用已经准备好的固定版本运行环境并启动 stdio MCP，不再改写客户端配置，不在每次启动时重新安装依赖。Skill 是独立交付件，初始化可一并安装；以后升级应分别记录 MCP 与 Skill 版本。
+
+### 安装不等于获得云权限
+
+AK/SK、项目 ID、原生 HTTPS endpoint 由用户在可信本地环境配置，详见第6节。不要把凭据放进安装命令、聊天或仓库。默认只读；真实变更需操作方开启写权限，再对具体计划确认。无需为了本地 Claude 验证提前注册码道。
+
+### 当前可用程度
+
+| 项目 | 当前状态 |
+|---|---|
+| Python MCP 与六场景专项 Skill | 已有0.3.8a2开发交付；实际云验收按场景记录 |
+| npm 安装器原型 | 本地实现，8项安装器测试通过，尚未发布；仍依赖预装Python3.12 |
+| 自动准备并缓存 Python 的启动入口 | 待实现与验证 |
+| 正式个人 npm 包及一条命令安装 | 待确认账号、Windows验收、发布及注册表安装验证 |
+| 离线 ZIP | 可用备用方式，按下面步骤安装 |
+
+本文档不把目标命令作为已发布能力。正式发布后应填入真实包名和验证过的固定版本，移除本节未发布提示。
+
 ## 1. 能做什么
 
 | 场景 | 当前支持 |
@@ -17,7 +68,7 @@
 
 暂不支持Ha、包周期创建、应用删除级联PG、自动购买证书或EIP、修改EIP带宽。SQL和数据操作属于独立数据面能力。证书由用户在外部流程准备；共享安全组影响需先核对。
 
-## 2. 安装前准备
+## 2. 当前离线交付的安装前准备
 
 推荐安装路径为Windows x64 + Python3.12，使用PowerShell。先确认：
 
@@ -30,7 +81,7 @@ Claude Code需已安装，并且能正常与所配置的模型对话。本包不
 
 macOS开发机已进行过本地验证，但下述ZIP包含Windows依赖，不适用于macOS/Linux/ARM64。其他系统需使用源码及匹配平台的依赖，不能直接运行此Windows安装命令。
 
-## 3. 下载与一行安装
+## 3. 离线 ZIP 安装（备用方式）
 
 打开[0.3.8a2下载页](https://github.com/hanchixu0627/rds-supabase-fullstack/releases/tag/supabase-dev-v0.3.8a2)，下载：
 
@@ -55,7 +106,7 @@ Get-FileHash .\supabase-development-0.3.8a2-windows-x64-py312.zip -Algorithm SHA
 
 这是“解压后单行安装”，不包含自动下载安装Claude、云账号配置或自动授权云写。执行策略被公司限制时交IT按允许方式处理，不需要全局关闭策略。目录已存在`.venv`时使用新解压目录；不要覆盖旧环境。安装前不要把报告或自定义文件放进解压目录，否则完整性校验会失败。
 
-## 4. 安装专项Skill
+## 4. 离线方式：安装专项Skill
 
 安装成功后新建独立交互目录，例如 `D:\Supabase\claude-test`。不要把含凭据或原始内部资料的目录直接作为Agent工作目录。
 
@@ -67,7 +118,7 @@ New-Item -ItemType Directory -Force 'D:\Supabase\claude-test\.claude\skills' | O
 
 确认最终存在 `.claude\skills\huaweicloud-supabase\SKILL.md` 和完整references目录。已有同名Skill时先核对版本，不反复复制嵌套目录。使用的是Supabase专项Skill，不是huaweicloud-mcp-dev开发Skill。
 
-## 5. 接入Claude Code
+## 5. 离线方式：接入Claude Code
 
 在交互目录创建`.mcp.json`，例如：
 

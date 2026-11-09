@@ -1,20 +1,20 @@
-# Supabase MCP + Skill：本地一条命令使用指南
+# 华为云 Supabase MCP 与 Skill 用户指南
 
-文档更新：2026-11-09。本指南只介绍新的本地启动包，不使用 npm。
+文档更新：2026-11-09。
 
-## 开始使用
+通过 Claude Code，你可以用自然语言查询和管理华为云 Supabase。MCP 连接云服务接口，专项 Skill 帮助澄清需求、组织操作步骤并说明变更影响。
+
+## 安装与启动
 
 **前提：Windows x64，Claude Code 已安装并能正常对话。无需预装 Python 或 Node.js。**
 
-从[下载页](https://github.com/hanchixu0627/rds-supabase-fullstack/releases/tag/supabase-local-client-v0.1.0-dev)获取 `supabase-local-client-0.1.0-dev-windows-x64.zip`，使用同页 SHA256 文件核对后解压。在解压目录打开 PowerShell，只执行：
+从[下载页](https://github.com/hanchixu0627/rds-supabase-fullstack/releases/tag/supabase-local-client-v0.1.0-dev)获取 `supabase-local-client-0.1.0-dev-windows-x64.zip`，使用同页 SHA256 文件核对后解压。在解压目录打开 PowerShell，运行：
 
 ```powershell
 powershell -NoProfile -File .\start-supabase.ps1
 ```
 
-等待安装完成，**Claude 会自动打开**。你不需要手动安装依赖、复制 Skill、编辑 MCP 配置或另起 MCP 服务。
-
-程序自动完成：准备独立 Python → 安装 MCP → 安装专项 Skill → 配置只读连接 → 离线自检 → 启动 Claude。Claude 首次要求确认项目或工具时，按提示确认；安装器不会跳过客户端信任检查。
+脚本会准备运行环境、安装 MCP 和专项 Skill，并在检查通过后打开 Claude。首次使用时，按 Claude 的提示确认项目信任和工具连接。
 
 打开后，直接用自然语言说：
 
@@ -24,11 +24,11 @@ powershell -NoProfile -File .\start-supabase.ps1
 
 > 列出我的 Supabase 应用，不做修改。
 
-**以后使用仍执行同一个命令。** 程序复用已安装环境，不重复安装，不清空执行账本。
+以后使用时，在解压目录重新运行上述脚本即可。程序会复用已安装的环境和操作记录。
 
 ## 连接你的云资源
 
-安装只解决工具接入，云访问还需要你自己的身份和网络。请通过公司允许的本地环境配置方式，使启动终端获得下列变量；已有这些配置的用户无需重复设置。
+查询真实云资源前，请准备具有对应权限的云身份，确认电脑可访问服务入口，并通过公司允许的本地环境配置方式，为启动终端设置下列变量。修改后重新启动客户端。
 
 | 配置 | 用途 |
 |---|---|
@@ -52,9 +52,9 @@ powershell -NoProfile -File .\start-supabase.ps1
 | ApiKey | 列出应用〈ID〉的 ApiKey 元数据，不查看明文。 |
 | 业务配置 | 查询应用〈ID〉的匿名注册和账号注册开关。 |
 
-此启动包默认只读，不会因一句“确认”自动开启写权限。当前简化入口用于安装和只读体验；真实写入仍须操作方在受控环境启用权限，并对具体变更预览确认。功能清单不等于所有场景已完成真实验收。
+当前启动包默认只读，可用于查询资源和了解操作要求。执行变更需要由环境负责人配置写权限，并在查看目标、参数和影响后确认具体计划。当前启动包不提供写权限切换或旧环境迁移功能。
 
-## 文件放在哪里
+## 安装位置与操作记录
 
 自动安装到 `%LOCALAPPDATA%\HuaweiCloudSupabaseLocal`：
 
@@ -64,16 +64,14 @@ powershell -NoProfile -File .\start-supabase.ps1
 
 启动时只加载本入口的 MCP 配置，避免与原用户级 Supabase 服务重复连接；不改动旧测试环境，不迁移旧账本。旧环境有未决变更时，继续在原环境核对。
 
-## 当前版本与遇到问题时怎么办
+## 版本与问题处理
 
 业务 MCP/Skill：**0.3.8a2**；本地启动包：**0.1.0-dev 开发预览**。
 
-- 已完成安装逻辑测试、Windows依赖解析和交付文件校验；**Windows端到端安装及Claude交互仍待实际验收**。
-- 首次没有匹配 Python 时需要联网下载并校验运行时；依赖随包提供。该包不是“完全离线、无任何前置”的安装。
+- 当前为开发预览，Windows 完整安装及 Claude 交互尚待验收，请先在测试环境使用。
+- 首次没有匹配 Python 时需要联网下载运行时；其余依赖随包提供。
 - 暂只支持 Windows x64。macOS、Linux、ARM64 不使用此包。
 - 如果启动失败，保留错误反馈即可；不要删除账本、关闭TLS或全局放宽执行策略。
 - 如果已安装配置被修改，程序会停止并保留文件，不自动覆盖。升级及写权限迁移另行处理。
 
-下载和解压属于获取文件；本指南的“一条命令”指本地包到位后，一次完成安装、配置并进入Claude。
-
-维护旧环境才需要阅读[历史手工安装说明](MANUAL_INSTALL_LEGACY.md)。实现和维护说明见[本地启动器](../local-client/README.md)，完整功能边界见[六场景矩阵](SIX_SCENARIO_MATRIX.md)。
+维护旧环境可阅读[历史手工安装说明](MANUAL_INSTALL_LEGACY.md)。实现和维护说明见[本地启动器](../local-client/README.md)，完整功能边界见[六场景矩阵](SIX_SCENARIO_MATRIX.md)。

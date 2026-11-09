@@ -62,10 +62,10 @@ Get-FileHash .\supabase-development-0.3.8a2-windows-x64-py312.zip -Algorithm SHA
 使用下面一行把专项Skill复制到项目级位置：
 
 ```powershell
-New-Item -ItemType Directory -Force 'D:\Supabase\claude-test\.claude\skills' | Out-Null; Copy-Item -Recurse 'D:\Supabase\0.3.8a2\skill' 'D:\Supabase\claude-test\.claude\skills\huaweicloud-supabase'
+New-Item -ItemType Directory -Force 'D:\Supabase\claude-test\.claude\skills' | Out-Null; Copy-Item -Recurse 'D:\Supabase\0.3.8a2\skill' 'D:\Supabase\claude-test\.claude\skills\rds-supabase-mgr'
 ```
 
-确认最终存在 `.claude\skills\huaweicloud-supabase\SKILL.md` 和完整references目录。已有同名Skill时先核对版本，不反复复制嵌套目录。使用的是Supabase专项Skill，不是huaweicloud-mcp-dev开发Skill。
+确认最终存在 `.claude\skills\rds-supabase-mgr\SKILL.md` 和完整references目录。已有同名Skill时先核对版本，不反复复制嵌套目录。使用的是Supabase专项Skill，不是huaweicloud-mcp-dev开发Skill。
 
 ## 5. 接入Claude Code
 
@@ -97,7 +97,7 @@ Set-Location 'D:\Supabase\claude-test'
 claude --strict-mcp-config --mcp-config .\.mcp.json
 ```
 
-首次按客户端提示确认项目及MCP。输入 `/mcp` 检查连接；实际工具列表应包含29个工具。输入 `/huaweicloud-supabase` 明确加载专项Skill，再输入：
+首次按客户端提示确认项目及MCP。输入 `/mcp` 检查连接；实际工具列表应包含29个工具。输入 `/rds-supabase-mgr` 明确加载专项Skill，再输入：
 
 > 查询当前MCP能力，说明支持哪些Supabase场景；本次不访问云资源。
 

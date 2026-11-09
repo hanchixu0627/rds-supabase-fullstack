@@ -1,6 +1,6 @@
 {
   "mcpServers": {
-    "huaweicloud-supabase": {
+    "rds-supabase-mgr": {
       "command": "REPLACE_WITH_ABSOLUTE_VENV_PYTHON",
       "args": ["-m", "mcp_server_supabase.main"],
       "env": {

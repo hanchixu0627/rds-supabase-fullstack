@@ -1,5 +1,5 @@
 ---
-name: huaweicloud-supabase
+name: rds-supabase-mgr
 description: 使用华为云 Supabase 管控 MCP 查询应用、ApiKey元数据与认证配置，规划创建并执行已开放的SSL、EIP、应用删除、密钥重置和注册开关变更。不用于SQL或数据操作。
 ---
 # Supabase 管控 Skill

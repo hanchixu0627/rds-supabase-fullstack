@@ -30,9 +30,9 @@ EXPECTED_SKILLS = {
     "rds-supabase-postgres-best-practices",
     "huawei-supabase-frontend",
 }
-# Pre-existing skills in this repository that predate the rds-supabase
-# capability and are not authored against this contract (A2-A7 skipped).
-FOREIGN_SKILLS = {"huaweicloud-mcp-dev"}
+# Skills present in this repository that are not authored against the A1-A7
+# contract (tolerated; A2-A7 skipped).
+FOREIGN_SKILLS = {"huaweicloud-mcp-dev", "rds-supabase-mgr"}
 
 ALLOWED_FIELDS = {"name", "description", "license", "allowed-tools", "metadata", "compatibility"}
 NAME_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")

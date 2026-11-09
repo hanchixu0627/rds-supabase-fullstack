@@ -28,6 +28,13 @@ semantic versioning.
 
 ### Changed
 
+- Renamed the control-plane skill `huaweicloud-supabase` to `rds-supabase-mgr`
+  (directory and SKILL.md name) to align with the renamed mgr server
+  `mcp_server_rds_supabase_mgr`. Skill content is unchanged; README, the mgr
+  server docs (USER_GUIDE, MIGRATION, RELEASE_0.3.8a1), MCP config example
+  labels and the validate_skills exemption entry were updated. The server's
+  local state directory default (`~/.local/state/huaweicloud-supabase`) is
+  intentionally retained to preserve existing execution ledgers.
 - Renamed the control-plane server directory `server/rds-supabase-mgr-mcp` to
   `server/mcp_server_rds_supabase_mgr` to match the `mcp_server_*` convention
   (management plane: RDS Supabase instance lifecycle — creation, configuration,

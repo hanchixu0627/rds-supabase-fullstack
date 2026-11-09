@@ -2,7 +2,7 @@
 
 日期：2026-11-07。开发预发行版；不宣称六场景全量生产验收完成。
 
-相对0.3.7a1新增12个工具，总计29个：Single创建（已有PG/按需新PG）、Supabase规格和可托管PG查询、应用改密、完整已知Auth配置、OBS更新、VPC组查询/创建及规则增删、指定ApiKey本地文件交付。专项Skill独立位于skills/huaweicloud-supabase。
+相对0.3.7a1新增12个工具，总计29个：Single创建（已有PG/按需新PG）、Supabase规格和可托管PG查询、应用改密、完整已知Auth配置、OBS更新、VPC组查询/创建及规则增删、指定ApiKey本地文件交付。专项Skill独立位于skills/rds-supabase-mgr。
 
 安全机制：本地受保护请求别名、秘密脱敏预览、两阶段确认、请求内容绑定、一次提交、未知结果持久记录、只读/保护规则。Storage首次启用需SK，已启用同AK可省略；Key明文不返回模型，文件由可信用户查看/复制。
 

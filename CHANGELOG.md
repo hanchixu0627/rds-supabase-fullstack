@@ -7,6 +7,12 @@ semantic versioning.
 
 ### Added
 
+- Skill `huawei-supabase-frontend` v0.1.0: private OBS + CDN static frontend
+  deployment, integration with existing Huawei Cloud RDS Supabase applications,
+  build environment preparation, versioned updates and rollbacks. Includes
+  self-contained operation references, the v2 release record contract, four
+  JSON examples, and a read-only default prompt.
+
 - Skills v2.5.0 (`rds-supabase-mcp`): added `references/install.md`, a one-shot
   AI-agent installation runbook — collect SUPABASE_URL, SUPABASE_ANON_KEY and
   SUPABASE_SERVICE_ROLE_KEY from the user, render the `mcpServers` config from

@@ -1,0 +1,4 @@
+interface:
+  display_name: "华为云前端部署与 Supabase 接入"
+  short_description: "准备项目构建环境，使用华为云私有 OBS/CDN 静态托管并接入 Supabase"
+  default_prompt: "使用 $huawei-supabase-frontend 只读检查当前前端、已有华为云 RDS Supabase 和 OBS/CDN 托管配置，报告域名条件、构建环境、账号权限、费用与缺项；本次不安装工具、不创建或修改云资源、不发布，后续由我确认具体变更。"

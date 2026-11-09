@@ -24,7 +24,12 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 SKILLS_DIR = REPO_ROOT / "skills"
-EXPECTED_SKILLS = {"rds-supabase-mcp", "rds-supabase", "rds-supabase-postgres-best-practices"}
+EXPECTED_SKILLS = {
+    "rds-supabase-mcp",
+    "rds-supabase",
+    "rds-supabase-postgres-best-practices",
+    "huawei-supabase-frontend",
+}
 # Pre-existing skills in this repository that predate the rds-supabase
 # capability and are not authored against this contract (A2-A7 skipped).
 FOREIGN_SKILLS = {"huaweicloud-mcp-dev"}

@@ -59,6 +59,7 @@ uv run mcp_server_rfs
   认证、schema 变更、RLS 调试速查与服务端计算路由。
 - **[rds-supabase-postgres-best-practices](skills/rds-supabase-postgres-best-practices/SKILL.md)**：
   Postgres 最佳实践规则库——按症状直达规则文件，含华为云 RDS 部署专属规则。
+- **[huawei-supabase-frontend](skills/huawei-supabase-frontend/SKILL.md)**：私有 OBS＋CDN 静态前端部署技能——构建环境准备、接入已有华为云 RDS Supabase、版本发布、更新、回退与真实入口验收。
 - **[huaweicloud-mcp-dev](skills/huaweicloud-mcp-dev/SKILL.md)**：本仓库 MCP 服务器开发指南。
 
 ## License
